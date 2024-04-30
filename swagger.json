@@ -1,0 +1,285 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "REST API for Swagger Documentation",
+    "version": "1.0.0"
+  },
+  "schemes": ["http"],
+  "servers": [{ "url": "http://localhost:5000" }],
+  "parameters": {
+    "Authrization": {
+      "in": "header",
+      "name": "authrization",
+      "type": "string",
+      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Indhc2VlbUB5b3BtYWlsLmNvbSIsInVzZXJJZCI6IjYxNmE4MmQyNzQwZTk5MzY4OTNmZTdiNCIsImlhdCI6MTYzNzY2NzkxMSwiZXhwIjoxNjQwMDg3MTExfQ.sOiVb2KjS_5mfUJSPKi9Iymx4mr8LJb3UElGuZ3999Q",
+      "default": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Indhc2VlbUB5b3BtYWlsLmNvbSIsInVzZXJJZCI6IjYxNmE4MmQyNzQwZTk5MzY4OTNmZTdiNCIsImlhdCI6MTYzNzY2NzkxMSwiZXhwIjoxNjQwMDg3MTExfQ.sOiVb2KjS_5mfUJSPKi9Iymx4mr8LJb3UElGuZ3999Q,"
+    }
+  },
+  "tags": {
+    "name": "Node Minitask Project",
+    "description": "Node Minitask Project"
+  },
+
+  "paths": {
+    "/posts": {
+      "get": {
+        "tags": ["Post"],
+        "summary": "Get All Posts",
+        "description": "All Posts",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definations/schemas/Posts/get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Post"],
+        "summary": "Add Post",
+        "description": "Add Post",
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "required": true,
+                    "default": "Realme Phone"
+                  },
+                  "body": {
+                    "type": "string",
+                    "required": true,
+                    "default": "Realme Body"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definations/schemas/Posts/save"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "tags": ["Post"],
+        "summary": "Show Post",
+        "description": "Show a Post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "example": "632b3e8d6aecef49811d89d5",
+            "default": "632b3e8d6aecef49811d89d5"
+          },
+          {
+            "$ref": "#/parameters/Authrization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definations/schemas/Posts/show"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Post"],
+        "summary": "Update Post",
+        "description": "Update Post",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "example": "632b3e8d6aecef49811d89d5",
+            "default": "632b3e8d6aecef49811d89d5"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "required": true,
+                    "default": "Realme Phone"
+                  },
+                  "body": {
+                    "type": "string",
+                    "required": true,
+                    "default": "Realme Body"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definations/schemas/Posts/update"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Post"],
+        "summary": "Delete Post",
+        "description": "Delete a Post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "example": "632b3e8d6aecef49811d89d5",
+            "default": "632b3e8d6aecef49811d89d5"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definations/schemas/Posts/delete"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/image/save": {
+      "post": {
+        "tags": ["Files"],
+        "summary": "Upload a single file with controller.",
+        "consumes": ["multipart/form-data"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filename": {
+                    "type": "string",
+                    "required": true,
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definations/schemas/Files/save"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definations": {
+    "schemas": {
+      "Posts": {
+        "get": {
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Data Retirved Successfully"
+            }
+          }
+        },
+        "save": {
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Data Saved Successfully"
+            }
+          }
+        },
+        "show": {
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Data Retirved Successfully"
+            }
+          }
+        },
+        "update": {
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Data Updated Successfully"
+            }
+          }
+        },
+        "delete": {
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Data Deleted Successfully"
+            }
+          }
+        }
+      },
+      "Files": {
+        "save": {
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Data Saved Successfully"
+            }
+          }
+        }
+      }
+    }
+  }
+}
