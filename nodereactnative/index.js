@@ -1,6 +1,6 @@
-import { config } from 'dotenv-safe';
+const { config } = require('dotenv-safe');
 config()
-import express from 'express';
+const express  = require('express');
 const app = express()
 
 
