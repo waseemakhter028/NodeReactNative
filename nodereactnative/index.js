@@ -1,5 +1,4 @@
-import { config } from 'dotenv-safe';
-config()
+import 'dotenv/config'
 import express from 'express';
 import bodyParser from 'body-parser'
 import path from 'path'
