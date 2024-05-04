@@ -34,7 +34,7 @@ export const genericErrorHandler = (err, req, res) => {
         ? err.details.map((e) => ({ message: e.message, param: e.path.join('.') }))
         : err.errors.map((e) => e.messages.join('. ')).join(' and ')
     }
-  } else if (err.status === undefined && err.response && err.response.data) {
+  } else if (err.status === undefined && err?.response?.data) {
     ({ error } = err.response.data)
   } else if (err.status === 405) {
     error = {
