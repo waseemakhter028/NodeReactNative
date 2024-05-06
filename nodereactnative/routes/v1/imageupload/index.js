@@ -1,7 +1,7 @@
 
 import { Router } from 'express'
 // import multer from 'multer'
-import { save } from '../../../controllers/ImageUpload.controller.js'
+import { save, expressSave } from '../../../controllers/ImageUpload.controller.js'
 // import { storage, fileFilter, limits } from '../../../middlewares/upload.js'
 import { fileUpload } from '../../../middlewares/fileUpload.js'
 
@@ -27,5 +27,6 @@ function uploadMiddleware(req, res, next) {
 
 
 router.post('/save',  uploadMiddleware, save)
+router.post('/expresssave', expressSave)
 
 export default router

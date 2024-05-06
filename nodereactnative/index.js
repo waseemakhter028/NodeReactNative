@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import compression from 'compression'
 import cors from 'cors'
 import {fileURLToPath} from 'url';
+import fileUpload from 'express-fileupload'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from './swagger.json' assert{ type: "json" }
 import * as errorHandler from './middlewares/error-handler.js'
@@ -44,6 +45,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(bodyParser.json({ limit: '2mb' }))
 app.use(bodyParser.urlencoded({ extended: true }))
+
+// fileupload middleware use
+app.use(fileUpload())
 
 app.use(cors())
 app.options('*', cors())
