@@ -88,3 +88,5 @@ const closeHandler = () => {
 
 process.on('SIGTERM', closeHandler)
 process.on('SIGINT', closeHandler)
+
+export default app
