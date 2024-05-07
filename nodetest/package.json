@@ -2,15 +2,15 @@
   "name": "nodereactnative",
   "version": "1.0.0",
   "description": "node for react native",
-  "main": "index.js",
-  "type": "module",
+  "main": "index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node index.mjs",
+    "dev": "nodemon index.mjs"
   },
   "author": "waseem",
   "license": "ISC",
+
   "dependencies": {
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",
