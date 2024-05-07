@@ -1,14 +1,17 @@
-import fs from "fs";
-import path from "path";
-import { fileTypeFromBuffer } from "file-type";
+const fs = require("fs");
+const path = require("path");
+const FileType = require("file-type");
 
-export const fileUploadExpress = async ({filename, data, directory, size, maxSize = 2, allowedExtensions = ["jpeg", "png", "gif", "jpg"], allowedMimeTypes = [
-    "image/jpeg",
-    "image/png",
-    "image/gif",
-    "image/jpg",
-  ]}) => {
-  const fileInfo = await fileTypeFromBuffer(data);
+exports.fileUploadExpress = async ({
+  filename,
+  data,
+  directory,
+  size,
+  maxSize = 2,
+  allowedExtensions = ["jpeg", "png", "gif", "jpg"],
+  allowedMimeTypes = ["image/jpeg", "image/png", "image/gif", "image/jpg"],
+}) => {
+  const fileInfo = await FileType.fromBuffer(data);
   const ext = fileInfo.ext.toLowerCase();
   const mimetype = fileInfo.mime.toLowerCase();
 
@@ -30,20 +33,20 @@ export const fileUploadExpress = async ({filename, data, directory, size, maxSiz
       message: "Max file size is allowed " + maxSize + " MB",
     };
   }
-    // unlink old files
-    fs.readdir(directory, (err, files) => {
-      if (err) {
-        throw err;
-      }
-      for (const file of files) {
-        fs.unlink(path.join(directory, file), (err) => {
-          if (err) throw err;
-        });
-      }
-    });
+  // unlink old files
+  fs.readdir(directory, (err, files) => {
+    if (err) {
+      throw err;
+    }
+    for (const file of files) {
+      fs.unlink(path.join(directory, file), (err) => {
+        if (err) throw err;
+      });
+    }
+  });
 
   return {
     status: "success",
-    imageName: Math.floor(Math.random() * 1000000000) + "_" + filename
+    imageName: Math.floor(Math.random() * 1000000000) + "_" + filename,
   };
 };

@@ -1,7 +1,7 @@
-import { fileUploadExpress } from "../middlewares/fileUploadExpress.js";
-import ImageUploadModel from "../models/imageUpload.js";
+const { fileUploadExpress }  =  require("../middlewares/fileUploadExpress");
+const ImageUploadModel  = require("../models/imageUpload");
 
-export const save = async (req, res) => {
+exports.save = async (req, res) => {
   if (!req.file) {
     res.json({ status: 200, data: "Please select file" });
   }
@@ -18,7 +18,7 @@ export const save = async (req, res) => {
   }
 };
 
-export const expressSave = async (req, res) => {
+exports.expressSave = async (req, res) => {
   if (!req.files) {
     res.status(400).json({ status: "error", message: "Please Select File." });
   }

@@ -1,10 +1,10 @@
-import multer from "multer";
-import path from "path";
-import fs from "fs";
+const multer = require("multer");
+const fs = require("fs");
+const path = require("path");
 
 
 
-export const fileUpload = (errorMessage="Only .png, .jpg, gif, svg and .jpeg format allowed!", uploadPath = "./public/uploads",  limits = { fileSize: 10000000 }, fileValidExt = 'jpeg|jpg|png|gif|svg') => {
+exports.fileUpload = (errorMessage="Only .png, .jpg, gif, svg and .jpeg format allowed!", uploadPath = "./public/uploads",  limits = { fileSize: 10000000 }, fileValidExt = 'jpeg|jpg|png|gif|svg') => {
 
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {

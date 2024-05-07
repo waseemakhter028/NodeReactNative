@@ -1,7 +1,7 @@
-import HttpStatus from 'http-status'
+const  HttpStatus =  require('http-status')
 
 // Error response middleware for 404 not found.
-export const notFound = (req, res) => {
+exports.notFound = (req, res) => {
   res.status(HttpStatus.NOT_FOUND).json({
     error: {
       code: HttpStatus.NOT_FOUND,
@@ -11,7 +11,7 @@ export const notFound = (req, res) => {
 }
 
 // Method not allowed error middleware.
-export const methodNotAllowed = (req, res) => {
+exports.methodNotAllowed = (req, res) => {
   res.status(HttpStatus.METHOD_NOT_ALLOWED).json({
     error: {
       code: HttpStatus.METHOD_NOT_ALLOWED,
@@ -21,7 +21,7 @@ export const methodNotAllowed = (req, res) => {
 }
 
 // Generic error response middleware for validation and internal server errors.
-export const genericErrorHandler = (err, req, res) => {
+exports.genericErrorHandler = (err, req, res) => {
   let error
   console.log(err.message)
 

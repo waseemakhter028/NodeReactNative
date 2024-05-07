@@ -1,22 +1,18 @@
-import 'dotenv/config'
-import express from 'express';
-import bodyParser from 'body-parser'
-import path from 'path'
-import helmet from 'helmet';
-import compression from 'compression'
-import cors from 'cors'
-import {fileURLToPath} from 'url';
-import fileUpload from 'express-fileupload'
-import swaggerUi from 'swagger-ui-express'
-import swaggerDocument from './swagger.json' assert{ type: "json" }
-import * as errorHandler from './middlewares/error-handler.js'
-import Routes from './routes/index.js';
-import connectDB from './config/db.js';
+require('dotenv').config()
+const express  =  require('express');
+const  bodyParser = require('body-parser')
+const path  = require('path')
+const helmet  = require( 'helmet');
+const compression  = require( 'compression')
+const cors  = require( 'cors')
+const fileUpload  = require( 'express-fileupload')
+const swaggerUi  = require( 'swagger-ui-express')
+const swaggerDocument  = require( './swagger.json')
+const errorHandler  = require( './middlewares/error-handler')
+const Routes  = require( './routes/index')
+const connectDB  = require( './config/db')
 
 const app = express()
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 global.appRoot = path.join(__dirname)
 
@@ -88,5 +84,3 @@ const closeHandler = () => {
 
 process.on('SIGTERM', closeHandler)
 process.on('SIGINT', closeHandler)
-
-export default app

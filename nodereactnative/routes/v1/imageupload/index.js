@@ -1,32 +1,31 @@
+const { Router } = require("express");
+//  const multer from 'multer'
+const {
+  save,
+ expressSave,
+} = require("../../../controllers/ImageUpload.controller");
+//  const { storage, fileFilter, limits } from '../../../middlewares/upload.js'
+const { fileUpload } = require("../../../middlewares/fileUpload");
 
-import { Router } from 'express'
-// import multer from 'multer'
-import { save, expressSave } from '../../../controllers/ImageUpload.controller.js'
-// import { storage, fileFilter, limits } from '../../../middlewares/upload.js'
-import { fileUpload } from '../../../middlewares/fileUpload.js'
-
-const router = Router()
-
-
+const router = Router();
 
 // const upload = multer({ storage: storage, fileFilter: fileFilter, limits: limits,})
 
-const upload = fileUpload()
+const upload = fileUpload();
 
 function uploadMiddleware(req, res, next) {
-    try {
-        upload.single('filename')(req, res, function(err) {
-            if(err) res.status(400).json({status: 'error', message: err.message})
-            else next()
-        })
-    } catch (error) {
-        res.status(400).json({status: 'error', message: 'fileVaidation Error'})
-    }
+  try {
+    upload.single("filename")(req, res, function (err) {
+      if (err) res.status(400).json({ status: "error", message: err.message , data: 'File upload' });
+      else next();
+    });
+  } catch (error) {
+    res.status(400).json({ status: "error", message: "fileVaidation Error" });
+  }
 }
 
+// router.post("/save", uploadMiddleware, save);
+router.post("/save", expressSave);
+router.post("/expresssave", expressSave);
 
-
-router.post('/save',  uploadMiddleware, save)
-router.post('/expresssave', expressSave)
-
-export default router
+module.exports = router;
