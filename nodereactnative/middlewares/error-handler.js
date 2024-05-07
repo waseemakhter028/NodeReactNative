@@ -1,10 +1,8 @@
-const  HttpStatus =  require('http-status')
-
 // Error response middleware for 404 not found.
 exports.notFound = (req, res) => {
-  res.status(HttpStatus.NOT_FOUND).json({
+  res.status(404).json({
     error: {
-      code: HttpStatus.NOT_FOUND,
+      code: 404,
       message: 'page not found'
     }
   })
@@ -12,10 +10,10 @@ exports.notFound = (req, res) => {
 
 // Method not allowed error middleware.
 exports.methodNotAllowed = (req, res) => {
-  res.status(HttpStatus.METHOD_NOT_ALLOWED).json({
+  res.status(405).json({
     error: {
-      code: HttpStatus.METHOD_NOT_ALLOWED,
-      message: HttpStatus[HttpStatus.METHOD_NOT_ALLOWED]
+      code: 405,
+      message: 'Method not allowed'
     }
   })
 }
@@ -28,8 +26,8 @@ exports.genericErrorHandler = (err, req, res) => {
   if (err.isJoi) {
     // Validation error
     error = {
-      code: HttpStatus.BAD_REQUEST,
-      message: HttpStatus[HttpStatus.BAD_REQUEST],
+      code: 400,
+      message: 'validation error',
       details: err.details
         ? err.details.map((e) => ({ message: e.message, param: e.path.join('.') }))
         : err.errors.map((e) => e.messages.join('. ')).join(' and ')
@@ -51,7 +49,7 @@ exports.genericErrorHandler = (err, req, res) => {
   } else {
     // Return INTERNAL_SERVER_ERROR for all other cases
     error = {
-      code: HttpStatus.INTERNAL_SERVER_ERROR,
+      code: 500,
       message: err.message,
       lineNumber: err.stack
     }
