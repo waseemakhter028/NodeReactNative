@@ -6,7 +6,10 @@ let storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const directory = "./public/uploads";
     fs.readdir(directory, (err, files) => {
-      if (err) throw err;
+      if (err) {
+        console.log("waseen")
+        throw err
+      };
 
       for (const file of files) {
         fs.unlink(path.join(directory, file), (err) => {
@@ -17,11 +20,12 @@ let storage = multer.diskStorage({
     cb(null, './public/uploads')
   },
   filename: function (req, file, cb) {
-    
+    console.log("waseem file")
     cb(null, path.parse(file.originalname.trim()).name+'-'+Date.now()+path.extname(file.originalname))
   },
   limits: { fileSize: 10000000 },
   fileFilter: (req, file, cb) => {
+    console.log("wasee m filter")
     const fileTypes = /jpeg|jpg|png|gif|svg/
 
     //check extension names

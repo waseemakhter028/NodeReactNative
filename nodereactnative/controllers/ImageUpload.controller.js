@@ -1,5 +1,9 @@
 import ImageUploadModel from "../models/imageUpload.js";
 export const save = async (req, res) => {
+  console.log("waseen con")
+   if(!req.file) {
+    res.json({ status: 200, data: "Please select file"})
+   }
   try {
 
 

@@ -56,6 +56,10 @@ app.get('/', async (req, res) => {
   res.send('working server')
 })
 
+app.get('/api', async (req, res) => {
+  res.json({status: 200, data:[], message: 'working api'})
+})
+
 // Error Middlewares
 //404 not found handle
 app.use(errorHandler.notFound)
