@@ -1,9 +1,9 @@
-import  { Router } from 'express'
-import imageUploadRouter from './imageupload/index.js'
+ const  { Router }  = require('express')
+ const imageUploadRouter  =  require('./imageupload')
 
 const router = Router()
 
 router.use('/image',imageUploadRouter)
 
 
-export default router
+module.exports = router

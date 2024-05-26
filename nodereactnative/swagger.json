@@ -224,6 +224,42 @@
           }
         }
       }
+    },
+    "/image/expresssave": {
+      "post": {
+        "tags": ["Files"],
+        "summary": "Upload a single file with controller.",
+        "consumes": ["multipart/form-data"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filename": {
+                    "type": "string",
+                    "required": true,
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definations/schemas/Files/save"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definations": {

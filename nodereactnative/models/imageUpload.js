@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const imageUploadSchema = Schema(
@@ -18,4 +18,4 @@ const imageUploadSchema = Schema(
   { timestamps: true, strict: true }
 )
 
-export default mongoose.model('Image_Upload', imageUploadSchema)
+module.exports =  mongoose.model('Image_Upload', imageUploadSchema)
