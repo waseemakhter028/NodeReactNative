@@ -958,8 +958,8 @@ paths:
               payment_method:
                 required: true
                 type: string
-                example: stripe
-                default: stripe
+                example: razorpay
+                default: razorpay
               card:
                 required: true
                 type: number

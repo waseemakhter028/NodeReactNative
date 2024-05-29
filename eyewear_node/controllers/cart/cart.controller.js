@@ -17,8 +17,6 @@ const getCart = async (req, res) => {
       .populate({ path: "product_id", select: "_id image name price" })
       .sort({ createdAt: -1 });
 
-    console.log(data);
-
     return helper.sendSuccess(data, res, req.t("cart_get"), 200);
   } catch (e) {
     return helper.sendException(res, e.message, e.code);
@@ -43,8 +41,8 @@ const addCart = async (req, res) => {
       user_id: user_id,
       quantity: quantity,
       product_id: product_id,
-      size: size ?? "M",
-      color: color ?? "#B11D1D",
+      size: size ? size : "M",
+      color: color ? color : "#B11D1D",
     });
 
     if (!save)
