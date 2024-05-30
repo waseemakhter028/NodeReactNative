@@ -31,7 +31,6 @@ const index = async (req, res) => {
 
   const orderInfo = await Order.findById(order_id).populate({
     path: "transaction_id",
-    select: "payment_method",
   });
 
   if (!orderInfo) return helper.sendError({}, res, req.t("invalid_order"), 200);
@@ -55,8 +54,12 @@ const index = async (req, res) => {
 
   let payment_method = null;
 
-  if (orderInfo.transaction_id.method == "razorpay") {
-    payment_method = orderInfo.transaction_id.method;
+  if (orderInfo.transaction_id.payment_method === "razorpay") {
+    if (orderInfo.transaction_detail.method === "card") {
+      payment_method = "Card***** " + orderInfo.transaction_detail.card.last4;
+    } else {
+      payment_method = orderInfo.transaction_detail.method;
+    }
   } else {
     payment_method = "Coupon";
   }
@@ -98,6 +101,73 @@ const index = async (req, res) => {
   }, 3000);
 };
 
+const orderInvoice = async (req, res) => {
+  const { order_id } = req.query;
+
+  const timezone = req.headers["timezone"] || "Asia/Calcutta";
+
+  if (_.isEmpty(order_id))
+    return helper.sendError({}, res, req.t("invalid_order"), 200);
+
+  try {
+    const orderInfo = await Order.findById(order_id).populate({
+      path: "transaction_id",
+      // select: "payment_method",
+    });
+
+    if (!orderInfo)
+      return helper.sendError({}, res, req.t("invalid_order"), 200);
+
+    const products = await ProductOrder.find({
+      order_id: helper.ObjectId(order_id),
+    }).populate({ path: "product_id", select: "name image" });
+
+    const CouponOrder = await OrderCoupon.findOne({
+      order_id: helper.ObjectId(order_id),
+    }).populate({
+      path: "user_coupon_id",
+      select: "coupon_amount",
+      populate: {
+        path: "coupon_id",
+        select: "title",
+      },
+    });
+
+    let coupon = !CouponOrder ? null : CouponOrder;
+
+    let payment_method = null;
+
+    if (orderInfo.transaction_id.payment_method === "razorpay") {
+      if (orderInfo.transaction_detail.method === "card") {
+        payment_method = "Card***** " + orderInfo.transaction_detail.card.last4;
+      } else {
+        payment_method = orderInfo.transaction_detail.method;
+      }
+    } else {
+      payment_method = "Coupon";
+    }
+
+    const fileName = `${orderInfo.order_id}_orderinvoice.pdf`;
+
+    let order_time = moment.utc(orderInfo.createdAt).tz(timezone);
+
+    order_time = moment(order_time).format("DD-MMM-YYYY h:mm A");
+
+    const data = {
+      products: products,
+      payment_method: payment_method,
+      orderInfo: orderInfo,
+      order_time: order_time,
+      coupon: coupon,
+      fileName: fileName,
+    };
+    return helper.sendSuccess(data, res, req.t("data_retrived"), 200);
+  } catch (e) {
+    return helper.sendException(res, e.message, e.code);
+  }
+};
+
 module.exports = {
   index,
+  orderInvoice,
 };
