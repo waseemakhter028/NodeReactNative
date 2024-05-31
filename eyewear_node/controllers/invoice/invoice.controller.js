@@ -147,8 +147,6 @@ const orderInvoice = async (req, res) => {
       payment_method = "Coupon";
     }
 
-    const fileName = `${orderInfo.order_id}_orderinvoice.pdf`;
-
     let order_time = moment.utc(orderInfo.createdAt).tz(timezone);
 
     order_time = moment(order_time).format("DD-MMM-YYYY h:mm A");
@@ -159,7 +157,6 @@ const orderInvoice = async (req, res) => {
       orderInfo: orderInfo,
       order_time: order_time,
       coupon: coupon,
-      fileName: fileName,
     };
     return helper.sendSuccess(data, res, req.t("data_retrived"), 200);
   } catch (e) {

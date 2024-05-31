@@ -374,6 +374,35 @@ paths:
           schema:
             $ref: "#/definitions/forgotPassword"  
 
+  /refreshtoken:
+    parameters:
+      - $ref: '#/parameters/Authrization'
+      - $ref: '#/parameters/Timezone'
+      - $ref: '#/parameters/AcceptLanguage'
+    post:
+      summary: "refresh token"
+      description: refesh token ApI
+      tags:
+        - User auth apis
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              user_id:
+                required: true
+                type: string
+                example: "6655bf4a002885850f5392cf"              
+      responses:
+        200:
+          description: "successfull operation"
+          schema:
+            $ref: "#/definitions/refreshToken"
+
   /latestproducts:
     parameters:
       - $ref: '#/parameters/Authrization'
@@ -1211,6 +1240,14 @@ definitions:
             type: string
             example: "password resend on email"      
 
+  refreshToken:
+    allOf:
+      - $ref: "#/definitions/refreshToken"
+      - type: object
+        properties:
+           message:
+            type: string
+            example: "data retrived successfullly"    
 
   latestproductsSave:
     allOf:

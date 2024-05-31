@@ -272,7 +272,7 @@ const refreshToken = async (req, res) => {
   let user = await User.findById(user_id);
 
   if (!user) {
-    return helper.sendError({}, res, "Session expired. Login again", 200);
+    return helper.sendError({}, res, "Invalid user id", 200);
   } else if (!user.email_verified_status && user.login_type == 0) {
     return helper.sendError({}, res, req.t("account_not_verified"), 201);
   }
@@ -281,7 +281,7 @@ const refreshToken = async (req, res) => {
 
   user = await User.findOneAndUpdate(
     { _id: user._id },
-    { $set: { api_token: token, device_token: device_token } },
+    { $set: { api_token: token } },
     { new: true }
   );
 

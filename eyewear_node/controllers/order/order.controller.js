@@ -538,7 +538,7 @@ const placeOrder = async (req, res) => {
       `${req.t("your_order")} ${order.order_id} ${req.t("is_now")} ${status}`
     );
 
-    return helper.sendSuccess({}, res, req.t("order_placed"), 200);
+    return helper.sendSuccess({}, res, req.t("order_save"), 200);
   } catch (e) {
     return helper.sendException(res, e.message, e.code);
   }
