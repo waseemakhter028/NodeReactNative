@@ -10,8 +10,9 @@ const localization = require("./middlewares/localization");
 const routes = require("./routes");
 
 const swaggerUi = require("swagger-ui-express");
-const YAML = require("yamljs");
-const swaggerDocument = YAML.load("./swagger.yaml");
+// const YAML = require("yamljs");
+// const swaggerDocument = YAML.load("./swagger.yaml");
+const swaggerDocument = require("./swagger.json");
 
 const app = express();
 const cors = require("cors");
