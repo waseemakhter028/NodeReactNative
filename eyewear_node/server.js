@@ -67,7 +67,7 @@ app.use("/api", routes);
 app.use(errorHandler.notFound);
 
 //server configuration
-const server = app.listen(process.env.PORT, async () => {
+app.listen(process.env.PORT, async () => {
   console.log(
     `Server up successfully - host: ${process.env.HOST} port: ${process.env.PORT}`
   );
@@ -98,5 +98,5 @@ const closeHandler = () => {
 process.on("SIGTERM", closeHandler);
 process.on("SIGINT", closeHandler);
 
-//for jest testing
-module.exports = server;
+// //for jest testing
+// module.exports = server;
