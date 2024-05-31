@@ -66,6 +66,41 @@ app.use("/api", routes);
 //404 not found handle
 app.use(errorHandler.notFound);
 
+// //server configuration
+// const server = app.listen(process.env.PORT, async () => {
+//   console.log(
+//     `Server up successfully - host: ${process.env.HOST} port: ${process.env.PORT}`
+//   );
+// });
+
+// process.on("unhandledRejection", (err) => {
+//   console.log("possibly unhandled rejection happened");
+//   console.log(err.message);
+//   console.log(err);
+//   // const error = {
+//   //   success: false,
+//   //   code: err.code,
+//   //   message: err.message,
+//   //   type: "possibly unhandled rejection happened",
+//   // };
+//   // res.status(200).json({ error });
+// });
+
+// const closeHandler = () => {
+//   Object.values(connections).forEach((connection) => connection.close());
+
+//   server.close(() => {
+//     console.log("Server is stopped succesfully");
+//     process.exit(0); /* eslint-disable-line */
+//   });
+// };
+
+// process.on("SIGTERM", closeHandler);
+// process.on("SIGINT", closeHandler);
+
+// //for jest testing
+// module.exports = server;
+
 //server configuration
 const server = app.listen(process.env.PORT, async () => {
   console.log(
@@ -76,17 +111,10 @@ const server = app.listen(process.env.PORT, async () => {
 process.on("unhandledRejection", (err) => {
   console.log("possibly unhandled rejection happened");
   console.log(err.message);
-  console.log(err);
-  // const error = {
-  //   success: false,
-  //   code: err.code,
-  //   message: err.message,
-  //   type: "possibly unhandled rejection happened",
-  // };
-  // res.status(200).json({ error });
 });
 
 const closeHandler = () => {
+  // eslint-disable-next-line no-undef
   Object.values(connections).forEach((connection) => connection.close());
 
   server.close(() => {
@@ -97,6 +125,3 @@ const closeHandler = () => {
 
 process.on("SIGTERM", closeHandler);
 process.on("SIGINT", closeHandler);
-
-//for jest testing
-module.exports = server;
