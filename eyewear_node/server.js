@@ -108,20 +108,20 @@ app.listen(process.env.PORT, async () => {
   );
 });
 
-// process.on("unhandledRejection", (err) => {
-//   console.log("possibly unhandled rejection happened");
-//   console.log(err.message);
-// });
+process.on("unhandledRejection", (err) => {
+  console.log("possibly unhandled rejection happened");
+  console.log(err.message);
+});
 
-// const closeHandler = () => {
-//   // eslint-disable-next-line no-undef
-//   Object.values(connections).forEach((connection) => connection.close());
+const closeHandler = () => {
+  // eslint-disable-next-line no-undef
+  Object.values(connections).forEach((connection) => connection.close());
 
-//   server.close(() => {
-//     console.log("Server is stopped succesfully");
-//     process.exit(0); /* eslint-disable-line */
-//   });
-// };
+  app.close(() => {
+    console.log("Server is stopped succesfully");
+    process.exit(0); /* eslint-disable-line */
+  });
+};
 
 // process.on("SIGTERM", closeHandler);
 // process.on("SIGINT", closeHandler);
