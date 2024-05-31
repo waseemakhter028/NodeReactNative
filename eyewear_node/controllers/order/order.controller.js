@@ -11,6 +11,7 @@ const Product = require("../../models/product");
 const moment = require("moment");
 const striptags = require("striptags");
 const Razorpay = require("razorpay");
+const helper = require("../../heplers/helper");
 
 const getDeliveryCharge = (req, res) => {
   try {
@@ -65,6 +66,15 @@ const getCheckoutInfo = async (req, res) => {
         },
       },
     ]);
+
+    let sumSubTotal = 0;
+    if (data["cart"].length > 0) {
+      sumSubTotal = data["cart"].reduce(function (accumulator, item) {
+        return accumulator + item.quantity * item.price;
+      }, 0);
+    }
+    data["delivery_charge"] = parseInt(helper.deliveryFee(sumSubTotal));
+
     data["address"] = await Address.find({
       user_id: helper.ObjectId(user_id),
     }).sort({ createdAt: -1 });
