@@ -1,0 +1,28 @@
+{
+  "hello": "Hello",
+  "outcome": "Outcome",
+  "tax": "Tax",
+  "clothing": "Clothing",
+  "electronic": "Electronic",
+  "transport": "Transport",
+  "shoes": "Shoes",
+  "summeryText": "Here, you can see a full summary of your past expenses.",
+  "changeLanguage": "Change Language",
+  "english": "English",
+  "hindi": "Hindi",
+  "french": "French",
+  "mandarin": "Mandarin",
+  "login": {
+    "open_modal": "Open Modal",
+    "sign_in": "Sign In",
+    "email_place": "Email Address",
+    "password_place": "Password",
+    "error": {
+      "email": "Invalid email",
+      "email_req": "Please enter your email address",
+      "password_req": "Please enter your password",
+      "password_min": "Minimum 8 chars long",
+      "password_match": "Must contain minimum 8 characters, at least one upper case letter, one number and one special character"
+    }
+  }
+}
