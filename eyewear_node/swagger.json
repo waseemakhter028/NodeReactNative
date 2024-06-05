@@ -1634,6 +1634,99 @@
           }
         }
       }
+    },
+    "/uploadimage": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/Authrization"
+        },
+        {
+          "$ref": "#/parameters/Timezone"
+        },
+        {
+          "$ref": "#/parameters/AcceptLanguage"
+        }
+      ],
+      "post": {
+        "summary": "Profile",
+        "description": "upload user image API",
+        "tags": ["Profile apis"],
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "photo",
+            "type": "file",
+            "required": true,
+            "description": "Please select photo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successfull operation",
+            "schema": {
+              "$ref": "#/definitions/uploadImage"
+            }
+          }
+        }
+      }
+    },
+    "/changepassword": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/Authrization"
+        },
+        {
+          "$ref": "#/parameters/Timezone"
+        },
+        {
+          "$ref": "#/parameters/AcceptLanguage"
+        }
+      ],
+      "post": {
+        "summary": "Change Password",
+        "description": "Change Password API",
+        "tags": ["Profile apis"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "current_password": {
+                  "required": true,
+                  "type": "string",
+                  "example": "Test@123",
+                  "default": "Test@123"
+                },
+                "new_password": {
+                  "required": true,
+                  "type": "string",
+                  "example": "Test@1234",
+                  "default": "Test@1234"
+                },
+                "confirm_password": {
+                  "required": true,
+                  "type": "string",
+                  "example": "Test@1234",
+                  "default": "Test@1234"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successfull operation",
+            "schema": {
+              "$ref": "#/definitions/changePassword"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -2195,6 +2288,38 @@
             "message": {
               "type": "string",
               "example": "Data retrived successfullly!"
+            }
+          }
+        }
+      ]
+    },
+    "uploadImage": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/uploadImage"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Data saved successfullly!"
+            }
+          }
+        }
+      ]
+    },
+    "changePassword": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/changePassword"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Password changed successfullly!"
             }
           }
         }

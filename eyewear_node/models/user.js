@@ -87,6 +87,10 @@ const userSchema = Schema(
       set: (v) => Math.round(v),
       default: 0,
     },
+    image: {
+      type: String, //incase of social login
+      default: null,
+    },
     status: {
       type: Number,
       integer: true,

@@ -3,12 +3,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 let path = require("path");
 const connectDB = require("./config/db");
+const helmet = require("helmet");
+const compression = require("compression");
 const errorHandler = require("./middlewares/error-handler");
 const sendEmail = require("./heplers/sendemail");
 global.helper = require("./heplers/helper");
 const localization = require("./middlewares/localization");
 const routes = require("./routes");
-
+const fileUpload = require("express-fileupload");
 const swaggerUi = require("swagger-ui-express");
 // const YAML = require("yamljs");
 // const swaggerDocument = YAML.load("./swagger.yaml");
@@ -32,6 +34,27 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
 app.options("*", cors());
+
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
+app.use(
+  compression({
+    level: 6,
+    threshold: 10 * 100,
+    filter: (req, res) => {
+      if (req.headers["x-no-compression"]) {
+        return false;
+      }
+      return compression.filter(req, res);
+    },
+  })
+);
+
+// fileupload middleware use
+app.use(fileUpload());
 
 app.use(bodyParser.json({ limit: "2mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));

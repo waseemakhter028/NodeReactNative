@@ -213,6 +213,7 @@ const showProduct = async (req, res) => {
               $project: {
                 _id: 0,
                 name: "$user.name",
+                image: "$user.image",
                 comment: 1,
                 rating: 1,
                 created_at: "$createdAt",
@@ -259,7 +260,7 @@ const showProduct = async (req, res) => {
         },
         { user_id: 1 }
       );
-      isCart = !checkCart ? false : true;
+      isCart = !checkCart === false;
     }
 
     data.push({

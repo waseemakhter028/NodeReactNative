@@ -16,7 +16,11 @@ const schema = {
   placeOrder: joi.object({
     user_id: joi.string().trim().required().max(500),
     payment_method: joi.string().trim().required().max(8),
-    paymentId: joi.string().trim().required().min(18).max(30),
+    paymentId: joi.any().when("payment_method", {
+      is: "coupon",
+      then: joi.optional(),
+      otherwise: joi.string().trim().required().min(18).max(30),
+    }),
     address_id: joi.string().trim().required().max(500),
     notes: joi.string().trim().max(500),
     coupon_code: joi.any().when("payment_method", {
@@ -28,7 +32,7 @@ const schema = {
 
   orders: joi.object({
     user_id: joi.string().trim().required().max(500),
-    status: joi.number().required().min(1).max(3),
+    status: joi.number().required().min(1).max(4),
     page: joi.number().required().min(1).max(999999999999999),
   }),
 };

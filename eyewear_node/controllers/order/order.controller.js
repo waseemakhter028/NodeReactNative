@@ -305,7 +305,7 @@ const insertOrder = async (data) => {
       });
     } //for loop close
 
-    Cart.deleteOne({ user_id: helper.ObjectId(user_id) })
+    Cart.deleteMany({ user_id: helper.ObjectId(user_id) })
       .then((cartInfo) => {})
       .catch((err) => {});
   }
@@ -562,9 +562,15 @@ const orders = async (req, res) => {
     let match =
       status == 4
         ? // when order status=delivered
-          { status: { $eq: 4 }, user_id: helper.ObjectId(user_id) }
+          {
+            status: { $eq: 4 },
+            user_id: { $eq: helper.ObjectId(user_id) },
+          }
         : // when order status!=delivered
-          { status: { $ne: 4 }, user_id: helper.ObjectId(user_id) };
+          {
+            status: { $ne: 4 },
+            user_id: { $eq: helper.ObjectId(user_id) },
+          };
 
     const rows = await Order.aggregate([
       {

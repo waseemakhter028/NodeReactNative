@@ -160,6 +160,7 @@ const login = async (req, res) => {
     login_type: user.login_type,
     api_token: user.api_token,
     role: user.role,
+    image: user.image,
     cartCount: cartCount,
   };
 
@@ -202,6 +203,7 @@ const socialLogin = async (req, res) => {
     login_type: user.login_type,
     api_token: user.api_token,
     role: user.role,
+    image: user.image,
     cartCount: cartCount,
   };
 
@@ -285,6 +287,10 @@ const refreshToken = async (req, res) => {
     { new: true }
   );
 
+  const cartCount = await Cart.countDocuments({
+    user_id: helper.ObjectId(user._id),
+  });
+
   const data = {
     id: user._id,
     name: user.name,
@@ -292,6 +298,8 @@ const refreshToken = async (req, res) => {
     login_type: user.login_type,
     api_token: user.api_token,
     role: user.role,
+    image: user.image,
+    cartCount: cartCount,
   };
 
   return helper.sendSuccess(data, res, req.t("data_retrived"), 200);
