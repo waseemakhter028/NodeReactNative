@@ -28,13 +28,6 @@ const langMiddleware = require("i18next-http-middleware");
 // mongodb configuration
 connectDB();
 
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-app.use(express.static(path.join(__dirname, "public")));
-
-app.use(cors());
-app.options("*", cors());
-
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
@@ -52,6 +45,13 @@ app.use(
     },
   })
 );
+
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use(cors());
+app.options("*", cors());
 
 // fileupload middleware use
 app.use(fileUpload());
