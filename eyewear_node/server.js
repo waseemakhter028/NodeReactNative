@@ -28,23 +28,23 @@ const langMiddleware = require("i18next-http-middleware");
 // mongodb configuration
 connectDB();
 
-// app.use(
-//   helmet({
-//     crossOriginResourcePolicy: false,
-//   })
-// );
-// app.use(
-//   compression({
-//     level: 6,
-//     threshold: 10 * 100,
-//     filter: (req, res) => {
-//       if (req.headers["x-no-compression"]) {
-//         return false;
-//       }
-//       return compression.filter(req, res);
-//     },
-//   })
-// );
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
+app.use(
+  compression({
+    level: 6,
+    threshold: 10 * 100,
+    filter: (req, res) => {
+      if (req.headers["x-no-compression"]) {
+        return false;
+      }
+      return compression.filter(req, res);
+    },
+  })
+);
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
