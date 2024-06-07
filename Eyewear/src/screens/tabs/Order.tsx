@@ -10,6 +10,7 @@ import Header from '../../components/Header';
 import Loader from '../../components/Loader';
 import NoData from '../../components/NoData';
 import Colors from '../../constants/Colors';
+import {useContext as useAppContext} from '../../context/AppContext';
 import {useContext} from '../../context/ToastContext';
 import {
   getFromAsyncStorage,
@@ -162,8 +163,9 @@ const OrderCard = ({item, Toast}: OrderCardProps) => {
 };
 
 const Order = () => {
+  const {setCurrentRoute} = useAppContext();
   const {Toast} = useContext();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [orders, setOrders] = useState<OrderProps[]>([]);
   const [pastOrders, setPastOrders] = useState<OrderProps[]>([]);
   const [pages, setPages] = useState<OrderPaginationProps>({
@@ -198,22 +200,23 @@ const Order = () => {
           switch (activeTab) {
             case true: // case for set active orders
               setPastOrders([]);
-              peg.page < peg.lastPage
-                ? setOrders([...orders, ...res.data.data])
-                : setOrders(res.data.data);
+              setOrders((prevState: OrderProps[]) => [
+                ...prevState,
+                ...res.data.data,
+              ]);
               break;
 
             case false: // case for set past orders
               setOrders([]);
-              peg.page < peg.lastPage
-                ? setPastOrders([...pastOrders, ...res.data.data])
-                : setPastOrders(res.data.data);
+              setPastOrders((prevState: OrderProps[]) => [
+                ...prevState,
+                ...res.data.data,
+              ]);
               break;
 
             default:
-              peg.page < peg.lastPage
-                ? setOrders([...orders, ...res.data.data])
-                : setOrders(res.data.data);
+              setPastOrders([]);
+              setOrders([]);
               break;
           }
         } else {
@@ -228,6 +231,7 @@ const Order = () => {
 
   useEffect(() => {
     fetchOrders();
+    return () => setCurrentRoute('OrderTab');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, status]);
   return (

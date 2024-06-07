@@ -1,39 +1,33 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 
-import {useNavigation} from '@react-navigation/native';
 import {FormikProvider, useFormik} from 'formik';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Header from '../../components/Header';
 import Colors from '../../constants/Colors';
+import {useContext as useAppContext} from '../../context/AppContext';
 import {useContext} from '../../context/ToastContext';
 import axios from '../../helpers/axios';
 import {wp} from '../../helpers/responsive';
-import {
-  Pressable,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from '../../storybook';
-import {ContactUsProps, NavigationProps} from '../../types';
+import {ButtonWithLoader, Text, TextInput, View} from '../../storybook';
+import {ContactUsProps} from '../../types';
 import {contactSchema} from '../../validation';
 
 const ContactUsScreen = () => {
+  const {user} = useAppContext();
   const {Toast} = useContext();
   const [loading, setLoading] = useState<boolean>(false);
-  const navigation: NavigationProps = useNavigation();
   const formik = useFormik({
     initialValues: {
       name: '',
-      email: '',
+      email: user.email,
       phone: '',
       message: '',
     },
     validationSchema: contactSchema,
-    onSubmit: values => sendQuery(values),
+    onSubmit: formValues => sendQuery(formValues),
   });
   const {
     errors,
@@ -42,13 +36,13 @@ const ContactUsScreen = () => {
     handleSubmit,
     resetForm,
     setFieldTouched,
-    initialValues,
+    values,
   } = formik;
 
-  const sendQuery = async (values: ContactUsProps) => {
+  const sendQuery = async (formValues: ContactUsProps) => {
     setLoading(true);
     try {
-      const info = await axios.post('/contact', values);
+      const info = await axios.post('/contact', formValues);
       const res = info.data;
       if (res.success === true) {
         resetForm();
@@ -58,7 +52,6 @@ const ContactUsScreen = () => {
           'Query Sent To Admin Successfully !',
           3000,
         );
-        navigation.navigate('Home');
       } else {
         Toast('danger', 'Error !', res.message);
       }
@@ -93,10 +86,10 @@ const ContactUsScreen = () => {
                 <TextInput
                   placeholder="Name"
                   maxLength={40}
+                  value={values.name}
                   placeholderTextColor={
                     touched.name && errors.name ? Colors.cred : Colors.cinputCol
                   }
-                  defaultValue={initialValues.name}
                   onChangeText={handleChange('name')}
                   onBlur={() => setFieldTouched('name')}
                   autoCapitalize="none"
@@ -120,25 +113,18 @@ const ContactUsScreen = () => {
                 <TextInput
                   placeholder="Email"
                   maxLength={50}
-                  placeholderTextColor={
-                    touched.email && errors.email
-                      ? Colors.cred
-                      : Colors.cinputCol
-                  }
-                  onChangeText={handleChange('email')}
-                  onBlur={() => setFieldTouched('email')}
+                  value={user.email}
+                  disabled={true}
+                  editable={false}
+                  selectTextOnFocus={false}
+                  placeholderTextColor={Colors.white}
                   autoCapitalize="none"
-                  className={`bg-white rounded-full rsheight-h-6 rsfontSize-f-2 rspaddingHorizontal-w-5 placeholder-cinputCol ${
+                  className={`bg-placeholder rounded-full rsheight-h-6 rsfontSize-f-2 rspaddingHorizontal-w-5 placeholder-white ${
                     touched.email &&
                     errors.email &&
                     'rsborderWidth-w-0.3 border-cred'
                   }`}
                 />
-                {touched.email && errors.email && (
-                  <Text className="text-cred rsfontSize-f-1.5 rspaddingLeft-w-1.5 rspaddingTop-h-0.5">
-                    {errors.email}
-                  </Text>
-                )}
               </View>
               {/* phone field */}
               <View className="rsmarginTop-h-2">
@@ -148,6 +134,7 @@ const ContactUsScreen = () => {
                 <TextInput
                   placeholder="Phone Number"
                   maxLength={10}
+                  value={values.phone}
                   keyboardType="number-pad"
                   placeholderTextColor={
                     touched.phone && errors.phone
@@ -177,6 +164,7 @@ const ContactUsScreen = () => {
                 <TextInput
                   placeholder="Message"
                   maxLength={500}
+                  value={values.message}
                   placeholderTextColor={
                     touched.message && errors.message
                       ? Colors.cred
@@ -184,8 +172,6 @@ const ContactUsScreen = () => {
                   }
                   onChangeText={handleChange('message')}
                   onBlur={() => setFieldTouched('message')}
-                  // numberOfLines={8}
-                  // multiline={true}
                   className={`bg-white rsborderRadius-w-15 rsheight-h-12 rsfontSize-f-2 rspaddingHorizontal-w-5 placeholder-cinputCol ${
                     touched.message &&
                     errors.message &&
@@ -200,23 +186,14 @@ const ContactUsScreen = () => {
               </View>
               {/* submit  button */}
               <View className="rspaddingTop-h-3">
-                {!loading ? (
-                  <TouchableOpacity
-                    className="bg-cblue rounded-full rspadding-w-3.5"
-                    onPress={() => handleSubmit()}>
-                    <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-                      Send Message
-                    </Text>
-                  </TouchableOpacity>
-                ) : (
-                  <Pressable
-                    className="bg-catColor rounded-full rspadding-w-3.5"
-                    disabled={true}>
-                    <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-                      Sending ....
-                    </Text>
-                  </Pressable>
-                )}
+                <ButtonWithLoader
+                  loading={loading}
+                  className="bg-cblue rounded-full rspadding-w-3.5"
+                  onPress={() => handleSubmit()}>
+                  <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
+                    Send Message
+                  </Text>
+                </ButtonWithLoader>
               </View>
             </FormikProvider>
           </View>

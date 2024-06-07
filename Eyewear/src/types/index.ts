@@ -65,12 +65,14 @@ export interface HomeProductsProps {
   price: number;
   qty: number;
   id: string;
+  reviewCount?: number;
+  avgRating?: number;
 }
 
 export interface HomeRatingProps {
-  price: null;
+  price: string | null;
   categories: string[];
-  rating: number[];
+  rating: string[];
 }
 /*** Home Page Interfaces End ***/
 
@@ -91,6 +93,8 @@ export interface ItemProps {
   name: string;
   price: number;
   qty: number;
+  reviewCount?: number;
+  avgRating?: number;
 }
 
 export interface ExtraProps {
@@ -120,6 +124,8 @@ export interface ProductProps {
   category: string;
   information: string;
   qty: number;
+  reviewCount?: number;
+  avgRating?: number;
 }
 /*** Product Detail Page Interfaces End ***/
 
@@ -505,9 +511,9 @@ export interface AddressModalCardProps {
 export interface CategoriesCompProps {
   filterProductByCategory: (
     pageNumber: number,
-    category: string[],
+    categories: string[],
     reset: boolean,
-  ) => void;
+  ) => Promise<void>;
 }
 
 export interface CategoriesProps {

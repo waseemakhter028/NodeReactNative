@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, Keyboard, StyleSheet} from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -20,7 +20,7 @@ import {TextInput, View} from '../storybook';
 import {HomeProductsProps, HomeRatingProps, PaginationProps} from '../types';
 
 const HomeScreen = () => {
-  const {setCartCount} = useAppContext();
+  const {setCartCount, setCurrentRoute} = useAppContext();
   const {Toast} = useContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<HomeProductsProps[]>([]);
@@ -30,20 +30,20 @@ const HomeScreen = () => {
     total: 0,
     lastPage: 0,
   });
-  const [isLiked, setIsLiked] = useState([]);
+  const [isLiked, setIsLiked] = useState<string[]>([]);
   const [searchValue, setSearchValue] = useState<string>('');
 
   const fetchProducts = async (
-    pageNumber = 1,
-    categories = [],
-    reset = false,
+    pageNumber = 1 as number,
+    categories = [] as string[],
+    reset = false as boolean,
   ) => {
     if (searchValue === '') {
       setLoading(true);
       try {
         const filterData: HomeRatingProps = {
           price: null,
-          categories: categories,
+          categories: categories || [],
           rating: [],
         };
         const info = await axios.post(
@@ -89,12 +89,14 @@ const HomeScreen = () => {
       );
       setProducts(result);
     } else {
+      Keyboard.dismiss();
       fetchProducts(1, [], true);
     }
   };
 
   useEffect(() => {
     fetchProducts();
+    return () => setCurrentRoute('HomeTab');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue]);
 

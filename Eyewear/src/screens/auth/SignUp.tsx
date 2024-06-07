@@ -11,6 +11,7 @@ import {useContext} from '../../context/ToastContext';
 import axios from '../../helpers/axios';
 import {fp} from '../../helpers/responsive';
 import {
+  ButtonWithLoader,
   Image,
   StatusBar,
   Text,
@@ -25,6 +26,7 @@ const SignUp = () => {
   const {Toast} = useContext();
   const {setSignUpVerify} = useAppContext();
   const [isHidePass, setIsHidePass] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const navigation: NavigationProps = useNavigation();
   const formik = useFormik({
     initialValues: {
@@ -46,6 +48,7 @@ const SignUp = () => {
   } = formik;
 
   const handleSignup = async (values: SignUpValidationProps) => {
+    setLoading(true);
     try {
       const info = await axios.post('/register', JSON.stringify(values));
       const res = info.data;
@@ -55,12 +58,20 @@ const SignUp = () => {
           verify: true,
           email: values.email,
         });
+        Toast(
+          'success',
+          'Success !',
+          'Successfully Sign up. Please verify your account',
+          2000,
+        );
         setTimeout(() => navigation.push('SignUpVerify'), 100);
       } else {
         Toast('danger', 'Error !', res.message);
       }
     } catch (e: any) {
       Toast('warning', 'Warning !', e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -185,13 +196,14 @@ const SignUp = () => {
             </View>
             {/* sign in  button */}
             <View className="rspaddingTop-h-3">
-              <TouchableOpacity
+              <ButtonWithLoader
+                loading={loading}
                 className="bg-cprimaryDark rounded-full rspadding-w-3.5"
                 onPress={() => handleSubmit()}>
                 <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
                   Sign Up
                 </Text>
-              </TouchableOpacity>
+              </ButtonWithLoader>
             </View>
             {/* links  */}
             <View className="rspaddingTop-h-2 items-end">

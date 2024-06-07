@@ -16,6 +16,7 @@ import {getFromAsyncStorage} from '../helpers/common';
 import {hp} from '../helpers/responsive';
 import useAxios from '../hooks/useAxios';
 import {
+  ButtonWithLoader,
   Image,
   Pressable,
   Text,
@@ -48,6 +49,7 @@ const ProductDetailScreen = () => {
   const navigation: NavigationProps = useNavigation();
   const product = route.params.item;
   const [loading, setLoading] = useState<boolean>(true);
+  const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<string>(sizes[1]);
   const [selectedColor, setSelectedColor] = useState<string>(colors[1]);
   const [productDetail, setProductDetail] = useState<ProductProps>({
@@ -72,6 +74,7 @@ const ProductDetailScreen = () => {
   const {axiosCall} = useAxios();
 
   const handleAddToCart = async () => {
+    setAddToCartLoader(true);
     const user = JSON.parse(await getFromAsyncStorage('user'));
     const {data, error} = await axiosCall('/carts', {
       method: 'post',
@@ -94,6 +97,7 @@ const ProductDetailScreen = () => {
         Toast('danger', 'Error !', res.message);
       }
     }
+    setAddToCartLoader(false);
   };
 
   const fetchProductDeatils = useCallback(async () => {
@@ -162,7 +166,7 @@ const ProductDetailScreen = () => {
             <Text className="rsfontSize-f-2.5 text-cprimaryDark font-bold">
               {extra?.avg_rating}
             </Text>
-            <RatingStar rating={3} size={3} gap={1.5} />
+            <RatingStar rating={extra?.avg_rating} size={3} gap={1.5} />
             <Text className="rsfontSize-f-2.5 text-cprimaryDark font-bold">
               ({extra?.reviewsCount}{' '}
               {extra?.reviewsCount > 1 ? 'reviews' : 'review'})
@@ -253,13 +257,14 @@ const ProductDetailScreen = () => {
             </Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity
+          <ButtonWithLoader
+            loading={addToCartLoader}
             className="bg-cprimaryDark rspadding-w-3 rsborderRadius-w-4"
             onPress={handleAddToCart}>
             <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
               Add To Cart
             </Text>
-          </TouchableOpacity>
+          </ButtonWithLoader>
         )}
       </View>
     </LinearGradient>

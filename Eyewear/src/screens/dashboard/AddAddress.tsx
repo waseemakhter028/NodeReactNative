@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Modal} from 'react-native';
 
 import {FormikProps, FormikProvider, useFormik} from 'formik';
@@ -11,10 +11,10 @@ import {getFromAsyncStorage} from '../../helpers/common';
 import {fp} from '../../helpers/responsive';
 import useAxios from '../../hooks/useAxios';
 import {
+  ButtonWithLoader,
   Pressable,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from '../../storybook';
 import {AddAddressCompProps, AddAddressProps} from '../../types';
@@ -28,16 +28,17 @@ const AddAddress = ({
 }: AddAddressCompProps) => {
   const {Toast} = useContext();
   const {axiosCall} = useAxios();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
-      address_type: selectedAddress?.address_type || '',
-      street: selectedAddress?.street || '',
-      address: selectedAddress?.address || '',
-      landmark: selectedAddress?.landmark || '',
-      city: selectedAddress?.city || '',
-      state: selectedAddress?.state || '',
-      zipcode: selectedAddress?.zipcode || '',
+      address_type: selectedAddress?.address_type ?? '',
+      street: selectedAddress?.street ?? '',
+      address: selectedAddress?.address ?? '',
+      landmark: selectedAddress?.landmark ?? '',
+      city: selectedAddress?.city ?? '',
+      state: selectedAddress?.state ?? '',
+      zipcode: selectedAddress?.zipcode ?? '',
     },
     validationSchema: addressSchema,
     onSubmit: values => hanldeAddress(values),
@@ -52,6 +53,7 @@ const AddAddress = ({
   }: FormikProps<AddAddressProps> = formik;
 
   const hanldeAddress = async (values: AddAddressProps) => {
+    setLoading(true);
     const user = JSON.parse(await getFromAsyncStorage('user'));
     values.zipcode = +values.zipcode;
     values = {...values, ...{user_id: user.id}};
@@ -92,6 +94,7 @@ const AddAddress = ({
         Toast('danger', 'Error !', res.message);
       }
     }
+    setLoading(false);
   };
   return (
     <View className="flex-1 rsheight-h-100 rswidth-w-100 rsbackgroundColor-black">
@@ -297,13 +300,14 @@ const AddAddress = ({
                 </View>
               </KeyboardAwareScrollView>
               <View className="rspaddingTop-h-2">
-                <TouchableOpacity
+                <ButtonWithLoader
+                  loading={loading}
                   className="bg-cprimaryDark rounded-full rspadding-w-3.5"
                   onPress={handleSubmit}>
                   <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
                     Submit
                   </Text>
-                </TouchableOpacity>
+                </ButtonWithLoader>
               </View>
             </FormikProvider>
           </View>

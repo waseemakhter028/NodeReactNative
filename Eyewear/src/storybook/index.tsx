@@ -1,3 +1,4 @@
+import ButtonWithLoader from './components/ButtonWithLoader';
 import Image from './components/Image';
 import ImageBackground from './components/ImageBackground';
 import Pressable from './components/Pressable';
@@ -9,6 +10,7 @@ import TouchableOpacity from './components/TouchableOpacity';
 import View from './components/View';
 
 export {
+  ButtonWithLoader,
   Image,
   ImageBackground,
   TouchableOpacity,

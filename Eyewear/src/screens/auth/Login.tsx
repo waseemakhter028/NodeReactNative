@@ -7,7 +7,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Loader from '../../components/Loader';
 import Colors from '../../constants/Colors';
 import {useContext as useAppContext} from '../../context/AppContext';
 import {useContext} from '../../context/ToastContext';
@@ -15,6 +14,7 @@ import axios from '../../helpers/axios';
 import {saveToAsyncStorage} from '../../helpers/common';
 import {fp} from '../../helpers/responsive';
 import {
+  ButtonWithLoader,
   Image,
   StatusBar,
   Text,
@@ -116,10 +116,6 @@ const Login = () => {
     }
   };
 
-  if (loading) {
-    return <Loader />;
-  }
-
   return (
     <LinearGradient
       colors={[Colors.cprimaryDark, Colors.cprimaryLight]}
@@ -215,13 +211,14 @@ const Login = () => {
             </View>
             {/* sign in  button */}
             <View className="rspaddingTop-h-3">
-              <TouchableOpacity
+              <ButtonWithLoader
+                loading={loading}
                 className="bg-cprimaryDark rounded-full rspadding-w-3.5"
                 onPress={() => handleSubmit()}>
                 <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
                   Sign In
                 </Text>
-              </TouchableOpacity>
+              </ButtonWithLoader>
             </View>
             {/* facebook login  button */}
             <View className="rspaddingTop-h-2">

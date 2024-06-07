@@ -23,15 +23,18 @@ const products = async (req, res) => {
   try {
     const { page = 1 } = req.query;
     let { price, categories, rating } = req.body;
-    let sort;
+    let sort = {};
     let match = { status: 1 };
     let metaDataAggregation = [];
 
     //dynamic sorting for price
     if (!_.isEmpty(price)) {
       let priceOrder = _.lowerCase(price) == "asc" ? 1 : -1;
-      sort = { ...sort, price: priceOrder };
+      sort = { price: priceOrder };
     }
+
+    //dynamic sorting for price and created:-1
+    sort = { ...sort, createdAt: -1 };
 
     if (!_.isEmpty(categories) && _.isArray(categories)) {
       categories = _.map(categories, (val) => helper.ObjectId(val));
@@ -86,12 +89,13 @@ const products = async (req, res) => {
         {
           $group: {
             _id: "$id",
-            avgRating: { $avg: "$ratings" },
             total: { $sum: 1 },
             name: { $first: "$name" },
             price: { $first: "$price" },
             image: { $first: "$image" },
             qty: { $first: "$qty" },
+            reviewCount: { $sum: "$ratings.rating" },
+            avgRating: { $avg: "$ratings" },
           },
         },
         {
@@ -108,6 +112,8 @@ const products = async (req, res) => {
             image: 1,
             qty: 1,
             total: 1,
+            avgRating: { $round: ["$avgRating", 1] },
+            reviewCount: 1,
           },
         }
       );
@@ -115,16 +121,41 @@ const products = async (req, res) => {
       metaDataAggregation = [];
 
       metaDataAggregation.push(
+        {
+          $lookup: {
+            from: "product_ratings",
+            localField: "_id",
+            foreignField: "product_id",
+            as: "ratings",
+          },
+        },
+
+        { $unwind: { path: "$ratings", preserveNullAndEmptyArrays: true } },
+
         { $skip: offset },
         { $limit: limit },
         {
-          $project: { id: "$_id", _id: 0, name: 1, price: 1, image: 1, qty: 1 },
+          $project: {
+            id: "$_id",
+            _id: 0,
+            name: 1,
+            price: 1,
+            image: 1,
+            qty: 1,
+            reviewCount: { $sum: "$ratings.rating" },
+            avgRating: {
+              $cond: {
+                if: {
+                  $eq: [{ $ifNull: ["$ratings.rating", ""] }, ""],
+                },
+                then: 0, // If "field" is null or empty string, return 0
+                else: { $round: [{ $avg: "$ratings.rating" }, 1] }, // Otherwise, return the value of with avg with round
+              },
+            },
+          },
         }
       );
     }
-
-    //dynamic sorting for price and created:-1
-    sort = { ...sort, createdAt: -1 };
 
     const rows = await Product.aggregate([
       {

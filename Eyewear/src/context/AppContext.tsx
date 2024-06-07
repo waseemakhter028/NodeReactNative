@@ -23,6 +23,8 @@ interface MyContextType {
   setCartCount: (count: number) => void;
   isCheckout: boolean;
   setIsCheckout: (isCheckout: boolean) => void;
+  currentRoute: string;
+  setCurrentRoute: (routeName: string) => void;
 }
 
 // Create the context with a default value (can be null initially)
@@ -41,6 +43,7 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({
   });
   const [cartCount, setCartCount] = useState<number>(0);
   const [isCheckout, setIsCheckout] = useState<boolean>(false);
+  const [currentRoute, setCurrentRoute] = useState<string>('');
 
   const checkAlreadyLogin = async () => {
     const token = await getFromAsyncStorage('token');
@@ -71,6 +74,8 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({
       setCartCount,
       isCheckout,
       setIsCheckout,
+      currentRoute,
+      setCurrentRoute,
     }),
     [
       isOpenDrawer,
@@ -85,6 +90,8 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({
       setCartCount,
       isCheckout,
       setIsCheckout,
+      currentRoute,
+      setCurrentRoute,
     ],
   );
 

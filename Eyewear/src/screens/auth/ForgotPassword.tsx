@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 import {FormikProvider, useFormik} from 'formik';
@@ -8,6 +8,7 @@ import Colors from '../../constants/Colors';
 import {useContext} from '../../context/ToastContext';
 import axios from '../../helpers/axios';
 import {
+  ButtonWithLoader,
   Image,
   StatusBar,
   Text,
@@ -21,6 +22,7 @@ import {forgotSchema} from '../../validation';
 const ForgotPassword = () => {
   const {Toast} = useContext();
   const navigation: NavigationProps = useNavigation();
+  const [loading, setLoading] = useState<boolean>(false);
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -38,6 +40,7 @@ const ForgotPassword = () => {
   } = formik;
 
   const handleForgotPassword = async (values: ForgotPassValidationProps) => {
+    setLoading(true);
     try {
       const info = await axios.post('/forgotpassword', JSON.stringify(values));
       const res = info.data;
@@ -55,6 +58,8 @@ const ForgotPassword = () => {
       }
     } catch (e: any) {
       Toast('warning', 'Warning !', e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -108,13 +113,14 @@ const ForgotPassword = () => {
             </View>
             {/* submit  button */}
             <View className="rspaddingTop-h-3">
-              <TouchableOpacity
+              <ButtonWithLoader
+                loading={loading}
                 className="bg-cprimaryDark rounded-full rspadding-w-3.5"
                 onPress={() => handleSubmit()}>
                 <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
                   Submit
                 </Text>
-              </TouchableOpacity>
+              </ButtonWithLoader>
             </View>
             {/* links  */}
             <View className="rspaddingTop-h-2 items-end">

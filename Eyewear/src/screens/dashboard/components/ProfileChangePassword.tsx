@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 import {FormikProvider, useFormik} from 'formik';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -8,7 +8,13 @@ import Colors from '../../../constants/Colors';
 import {useContext} from '../../../context/ToastContext';
 import {fp} from '../../../helpers/responsive';
 import useAxios from '../../../hooks/useAxios';
-import {Text, TextInput, TouchableOpacity, View} from '../../../storybook';
+import {
+  ButtonWithLoader,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from '../../../storybook';
 import {ProfileChangePasswordProps} from '../../../types';
 import {profilePaswordSchema} from '../../../validation';
 
@@ -17,6 +23,7 @@ const ProfileChangePassword = () => {
   const {axiosCall} = useAxios();
   const [isHidePass, setIsHidePass] = useState<boolean>(true);
   const [isHideConPass, setIsHideConPass] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
@@ -25,7 +32,7 @@ const ProfileChangePassword = () => {
       confirm_password: '',
     },
     validationSchema: profilePaswordSchema,
-    onSubmit: values => handleChangePassword(values),
+    onSubmit: formValues => handleChangePassword(formValues),
   });
   const {
     errors,
@@ -34,12 +41,16 @@ const ProfileChangePassword = () => {
     handleSubmit,
     resetForm,
     setFieldTouched,
+    values,
   } = formik;
 
-  const handleChangePassword = async (values: ProfileChangePasswordProps) => {
+  const handleChangePassword = async (
+    formValues: ProfileChangePasswordProps,
+  ) => {
+    setLoading(true);
     const {data, error} = await axiosCall('/changepassword', {
       method: 'post',
-      data: values,
+      data: formValues,
     });
     const res = data;
     if (error) {
@@ -52,14 +63,8 @@ const ProfileChangePassword = () => {
         Toast('danger', 'Error !', res.message);
       }
     }
+    setLoading(false);
   };
-
-  useEffect(() => {
-    resetForm();
-    return () => {
-      resetForm();
-    };
-  }, [resetForm]);
 
   return (
     <FormikProvider value={formik}>
@@ -73,6 +78,7 @@ const ProfileChangePassword = () => {
           <TextInput
             secureTextEntry={true}
             maxLength={50}
+            value={values.current_password}
             placeholder="Current Password"
             placeholderTextColor={
               touched.current_password && errors.current_password
@@ -108,6 +114,7 @@ const ProfileChangePassword = () => {
             <TextInput
               secureTextEntry={isHidePass}
               maxLength={50}
+              value={values.new_password}
               placeholder="New Password"
               placeholderTextColor={
                 touched.new_password && errors.new_password
@@ -153,6 +160,7 @@ const ProfileChangePassword = () => {
             <TextInput
               secureTextEntry={isHideConPass}
               maxLength={50}
+              value={values.confirm_password}
               placeholder="Confirm Password"
               placeholderTextColor={
                 touched.confirm_password && errors.confirm_password
@@ -187,13 +195,14 @@ const ProfileChangePassword = () => {
       </KeyboardAwareScrollView>
       {/* sign in  button */}
       <View className="rspaddingTop-h-3">
-        <TouchableOpacity
+        <ButtonWithLoader
+          loading={loading}
           className="bg-cprimaryDark rounded-full rspadding-w-3.5"
           onPress={() => handleSubmit()}>
           <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
             Change Password
           </Text>
-        </TouchableOpacity>
+        </ButtonWithLoader>
       </View>
     </FormikProvider>
   );

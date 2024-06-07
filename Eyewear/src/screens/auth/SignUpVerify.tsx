@@ -9,6 +9,7 @@ import {useContext as useAppContext} from '../../context/AppContext';
 import {useContext} from '../../context/ToastContext';
 import axios from '../../helpers/axios';
 import {
+  ButtonWithLoader,
   Image,
   Pressable,
   StatusBar,
@@ -23,6 +24,7 @@ import {verifySchema} from '../../validation';
 const SignUpVerify = () => {
   const {Toast} = useContext();
   const {signUpVerify, setSignUpVerify} = useAppContext();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const navigation: NavigationProps = useNavigation();
   const formik = useFormik({
@@ -43,6 +45,7 @@ const SignUpVerify = () => {
   } = formik;
 
   const handleVerifyAccount = async (values: SignUpVerifyValidationProps) => {
+    setLoading(true);
     const data = {
       email: values.email,
       otp: Number(values.otp.join('')),
@@ -63,6 +66,8 @@ const SignUpVerify = () => {
       }
     } catch (e: any) {
       Toast('warning', 'Warning !', e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -154,10 +159,9 @@ const SignUpVerify = () => {
                     keyboardType="number-pad"
                     maxLength={1}
                     placeholderTextColor={Colors.cinputCol}
-                    onChangeText={(text: string) =>
-                      handleChange(`otp.${index}`)(text)
-                    }
-                    // onChangeText={() => item > 5 && handleChange('otp')}
+                    onChangeText={(text: string) => {
+                      handleChange(`otp.${index}`)(text);
+                    }}
                     onBlur={() => setFieldTouched('otp')}
                     className={`bg-white rsborderRadius-w-3 rswidth-w-12 rsheight-h-6 rsfontSize-f-2 rspaddingHorizontal-w-5 placeholder-cinputCol ${
                       touched.otp &&
@@ -175,13 +179,14 @@ const SignUpVerify = () => {
             </View>
             {/* submit  button */}
             <View className="rspaddingTop-h-3">
-              <TouchableOpacity
+              <ButtonWithLoader
+                loading={loading}
                 className="bg-cprimaryDark rounded-full rspadding-w-3.5"
                 onPress={() => handleSubmit()}>
                 <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
                   Submit
                 </Text>
-              </TouchableOpacity>
+              </ButtonWithLoader>
             </View>
             {/* submit  button */}
             <View className="rspaddingTop-h-3">

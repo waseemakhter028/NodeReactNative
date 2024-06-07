@@ -10,6 +10,7 @@ import Loader from '../../components/Loader';
 import NoData from '../../components/NoData';
 import Colors from '../../constants/Colors';
 import OrderStatus from '../../constants/OrderStatus';
+import {useContext as useAppContext} from '../../context/AppContext';
 import {useContext} from '../../context/ToastContext';
 import {rand, showNotifiDate, statusColor} from '../../helpers/common';
 import {fp, hp, wp} from '../../helpers/responsive';
@@ -77,6 +78,7 @@ const NoticationCard = ({data}: NotificationsCardProps) => {
   );
 };
 const Notificaions = () => {
+  const {setCurrentRoute} = useAppContext();
   const {Toast} = useContext();
   const [notificationsData, setNotificationsData] = useState<
     NotificationsProps[]
@@ -127,6 +129,8 @@ const Notificaions = () => {
 
   useEffect(() => {
     fetchNotificaions();
+
+    return () => setCurrentRoute('NotificationTab');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

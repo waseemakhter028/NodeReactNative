@@ -19,7 +19,7 @@ import {CartItemsProps, NavigationProps} from '../../types';
 
 const CartScreen = () => {
   const {Toast} = useContext();
-  const {setCartCount, setIsCheckout} = useAppContext();
+  const {setCartCount, setIsCheckout, setCurrentRoute} = useAppContext();
   const [loading, setLoading] = useState<boolean>(true);
   const [cartItems, setCartItems] = useState<CartItemsProps[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
@@ -112,6 +112,8 @@ const CartScreen = () => {
 
   useEffect(() => {
     fetchUserCart();
+    return () => setCurrentRoute('CartTab');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchUserCart]);
 
   if (loading) {

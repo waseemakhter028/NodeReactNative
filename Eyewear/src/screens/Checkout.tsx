@@ -20,7 +20,14 @@ import {useContext} from '../context/ToastContext';
 import {getFromAsyncStorage, rand} from '../helpers/common';
 import {fp, hp, wp} from '../helpers/responsive';
 import useAxios from '../hooks/useAxios';
-import {Pressable, Text, TextPrice, TouchableOpacity, View} from '../storybook';
+import {
+  ButtonWithLoader,
+  Pressable,
+  Text,
+  TextPrice,
+  TouchableOpacity,
+  View,
+} from '../storybook';
 import {
   AddressProps,
   CartProps,
@@ -454,21 +461,14 @@ const Checkout = () => {
 
         {/* place order button*/}
         <View className="rspaddingTop-h-2 justify-end rsheight-h-9.5">
-          {orderPlaceLoader ? (
-            <Pressable className="bg-border rspadding-w-3 rsborderRadius-w-3">
-              <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-                Placing Order ....
-              </Text>
-            </Pressable>
-          ) : (
-            <TouchableOpacity
-              className="bg-cprimaryDark rspadding-w-3 rsborderRadius-w-3"
-              onPress={placeOrder}>
-              <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-                Place Order
-              </Text>
-            </TouchableOpacity>
-          )}
+          <ButtonWithLoader
+            loading={orderPlaceLoader}
+            className="bg-cprimaryDark rspadding-w-3 rsborderRadius-w-3"
+            onPress={placeOrder}>
+            <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
+              Place Order
+            </Text>
+          </ButtonWithLoader>
         </View>
       </View>
     </LinearGradient>
