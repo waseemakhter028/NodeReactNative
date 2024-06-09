@@ -7,7 +7,9 @@ import React, {
   useState,
 } from 'react';
 
-import {getFromAsyncStorage} from '../helpers/common';
+import {useTranslation} from 'react-i18next';
+
+import {getFromAsyncStorage, saveToAsyncStorage} from '../helpers/common';
 
 // Define a type for the context value
 interface MyContextType {
@@ -34,6 +36,7 @@ const AppContext = createContext<MyContextType | null>(null);
 export const AppContextProvider: React.FC<{children: ReactNode}> = ({
   children,
 }) => {
+  const {i18n} = useTranslation();
   const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [user, setUser] = useState<any>('');
@@ -47,6 +50,18 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({
 
   const checkAlreadyLogin = async () => {
     const token = await getFromAsyncStorage('token');
+    const language = await getFromAsyncStorage('language');
+    // setting app language
+    if (language && language !== undefined) {
+      i18n.changeLanguage(language);
+    } else {
+      // setting default app language
+      await saveToAsyncStorage({
+        language: 'en',
+      });
+      i18n.changeLanguage('en');
+    }
+
     if (token && token !== undefined) {
       setIsLogin(true);
       const loginUser = await getFromAsyncStorage('user');
@@ -58,6 +73,7 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({
 
   useEffect(() => {
     checkAlreadyLogin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const value: MyContextType = useMemo(

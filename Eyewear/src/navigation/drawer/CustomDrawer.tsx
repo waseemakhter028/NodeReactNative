@@ -6,6 +6,7 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import Colors from '../../constants/Colors';
@@ -23,6 +24,7 @@ import {
 import {NavigationProps} from '../../types';
 
 const CustomDrawer = (props: any) => {
+  const {t} = useTranslation();
   const {user, setIsLogin} = useContext();
   const {Toast} = useToastContext();
   const navigation: NavigationProps = useNavigation();
@@ -84,7 +86,7 @@ const CustomDrawer = (props: any) => {
           <TouchableOpacity className="flex-row rsgap-w-4" onPress={onShare}>
             <AntDesign name="sharealt" size={fp(3)} color={Colors.gray} />
             <Text className={`rsfontSize-f-2.2 rscolor-${Colors.gray}`}>
-              Tell a Friend
+              {t('drawer.tellfriend')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -92,7 +94,7 @@ const CustomDrawer = (props: any) => {
             onPress={handleLogout}>
             <AntDesign name="logout" size={fp(3)} color={Colors.gray} />
             <Text className={`rsfontSize-f-2.2 rscolor-${Colors.gray}`}>
-              Sign Out
+              {t('drawer.signout')}
             </Text>
           </TouchableOpacity>
         </View>

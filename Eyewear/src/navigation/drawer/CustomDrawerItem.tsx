@@ -34,3 +34,7 @@ export const AboutUsDrawer = ({color}: DrawerType) => {
 export const ContactUsDrawer = ({color}: DrawerType) => {
   return <AntDesign name="contacts" size={fp(2.5)} color={color} />;
 };
+
+export const LanguageDrawer = ({color}: DrawerType) => {
+  return <FontAwesome name="language" size={fp(2.5)} color={color} />;
+};

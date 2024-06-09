@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {useSharedValue, withSpring} from 'react-native-reanimated';
 
@@ -10,6 +11,7 @@ import {Image, StatusBar, Text, TouchableOpacity, View} from '../storybook';
 import {NavigationProps} from '../types';
 
 const WelcomeScreen = () => {
+  const {t} = useTranslation();
   const ring1Padding = useSharedValue(0);
   const ring2Padding = useSharedValue(0);
   const [nextCount, setNextCount] = useState(0);
@@ -76,10 +78,10 @@ const WelcomeScreen = () => {
             {/* title and punchline */}
             <View className="flex items-center">
               <Text className="font-bold text-white rsfontSize-f-7">
-                Eyewear
+                {t('welcome.title')}
               </Text>
               <Text className="rsfontSize-f-2 text-white tracking-widest">
-                Glasses for everyone
+                {t('welcome.subtitle')}
               </Text>
             </View>
           </View>
@@ -101,34 +103,34 @@ const WelcomeScreen = () => {
             </Animated.View>
             <View className="justify-center rspaddingTop-h-3 rspaddingHorizontal-w-2">
               <Text className="text-white rsfontSize-f-2.2">
-                &#8226; Vision is Fashion
+                &#8226; {t('welcome.line_1')}
               </Text>
               <Text className="text-white rsfontSize-f-2.2">
-                &#8226; Your Vision is Our Mission
+                &#8226; {t('welcome.line_2')}
               </Text>
               <Text className="text-white rsfontSize-f-2.2">
-                &#8226; Get Ready to See the World
+                &#8226; {t('welcome.line_3')}
               </Text>
               <Text className="text-white rsfontSize-f-2.2">
-                &#8226; Seeing the World from a New Perspective
+                &#8226; {t('welcome.line_4')}
               </Text>
               <Text className="text-white rsfontSize-f-2.2">
-                &#8226; We Bring You Clarity
+                &#8226; {t('welcome.line_5')}
               </Text>
               <Text className="text-white rsfontSize-f-2.2">
-                &#8226; Better Vision for a Better You
+                &#8226; {t('welcome.line_6')}
               </Text>
               <Text className="text-white rsfontSize-f-2.2">
-                &#8226; The World is Worth Seeing
+                &#8226; {t('welcome.line_7')}
               </Text>
               <Text className="text-white rsfontSize-f-2.2">
-                &#8226; Keep Calm and Wear Glasses
+                &#8226; {t('welcome.line_8')}
               </Text>
               <Text className="text-white rsfontSize-f-2.2">
-                &#8226; Look After Your Eyesight
+                &#8226; {t('welcome.line_9')}
               </Text>
               <Text className="text-white rsfontSize-f-2.2">
-                &#8226; Your Future is Bright, See it Clearly
+                &#8226; {t('welcome.line_10')}
               </Text>
             </View>
           </View>
@@ -149,7 +151,9 @@ const WelcomeScreen = () => {
               />
             </Animated.View>
             <View className="justify-center rspaddingTop-h-3 rspaddingHorizontal-w-2">
-              <Text className="text-white rsfontSize-f-3">Let's start ...</Text>
+              <Text className="text-white rsfontSize-f-3">
+                {t('welcome.letstart')}
+              </Text>
             </View>
           </View>
         )}
@@ -168,7 +172,7 @@ const WelcomeScreen = () => {
           <TouchableOpacity
             className="bg-lightgreen rspadding-w-1.5 rsmarginTop-h-2.5 rounded-full"
             onPress={() => handleNextScreen()}>
-            <Text className="text-white text-center">Next</Text>
+            <Text className="text-white text-center">{t('welcome.next')}</Text>
           </TouchableOpacity>
         </View>
       </View>

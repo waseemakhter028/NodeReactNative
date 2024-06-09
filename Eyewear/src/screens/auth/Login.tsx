@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useNavigation} from '@react-navigation/native';
 import {FormikProvider, useFormik} from 'formik';
+import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -27,6 +28,7 @@ import {loginSchema} from '../../validation';
 
 const Login = () => {
   const {Toast} = useContext();
+  const {t} = useTranslation();
   const {setIsLogin, setSignUpVerify, setCartCount} = useAppContext();
   const [isHidePass, setIsHidePass] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
@@ -68,7 +70,7 @@ const Login = () => {
         resetForm();
         setIsLogin(true);
         setCartCount(res.data.cartCount);
-        Toast('success', 'Success !', ' Logged In Successfully', 1000);
+        Toast('success', t('common.success'), t('login.res.success'), 1000);
         setTimeout(() => navigation.push('Home'), 1001);
       } else if (res.status === 201 && res.success === false) {
         setSignUpVerify({
@@ -133,7 +135,7 @@ const Login = () => {
           />
         </View>
         <Text className="text-white font-bold rsfontSize-f-3 rsmarginTop-h-3">
-          Sign In
+          {t('login.title')}
         </Text>
         {/* Form container */}
         <FormikProvider value={formik}>
@@ -141,10 +143,10 @@ const Login = () => {
             {/* email field */}
             <View>
               <Text className="text-sizeActive font-bold rsfontSize-f-2 rspadding-w-1.5">
-                Email ID
+                {t('login.label.email')}
               </Text>
               <TextInput
-                placeholder="Email Address"
+                placeholder={t('login.place.email')}
                 maxLength={50}
                 placeholderTextColor={
                   touched.email && errors.email ? Colors.cred : Colors.cinputCol
@@ -160,14 +162,14 @@ const Login = () => {
               />
               {touched.email && errors.email && (
                 <Text className="text-cred rsfontSize-f-1.5 rspaddingLeft-w-1.5 rspaddingTop-h-0.5">
-                  {errors.email}
+                  {t(errors.email)}
                 </Text>
               )}
             </View>
             {/* password field */}
             <View className="rspaddingTop-h-2">
               <Text className="text-sizeActive font-bold rsfontSize-f-2 rspadding-w-1.5">
-                Password
+                {t('login.label.password')}
               </Text>
               <View
                 className={`bg-white rounded-full rsheight-h-6 flex-row justify-between items-center ${
@@ -178,7 +180,7 @@ const Login = () => {
                 <TextInput
                   secureTextEntry={isHidePass}
                   maxLength={50}
-                  placeholder="Password"
+                  placeholder={t('login.place.password')}
                   placeholderTextColor={
                     touched.password && errors.password
                       ? Colors.cred
@@ -205,7 +207,7 @@ const Login = () => {
               </View>
               {touched.password && errors.password && (
                 <Text className="text-cred rsfontSize-f-1.5  rspaddingLeft-w-1.5 rspaddingTop-h-0.5">
-                  {errors.password}
+                  {t(errors.password)}
                 </Text>
               )}
             </View>
@@ -216,7 +218,7 @@ const Login = () => {
                 className="bg-cprimaryDark rounded-full rspadding-w-3.5"
                 onPress={() => handleSubmit()}>
                 <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-                  Sign In
+                  {t('login.button.signin')}
                 </Text>
               </ButtonWithLoader>
             </View>
@@ -224,8 +226,8 @@ const Login = () => {
             <View className="rspaddingTop-h-2">
               <TouchableOpacity className="bg-cblue rounded-full rspadding-w-3.5">
                 <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-                  <FontAwesome name="facebook" size={fp(2.5)} /> Login With
-                  Facebook
+                  <FontAwesome name="facebook" size={fp(2.5)} />{' '}
+                  {t('login.button.facebook')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -235,8 +237,8 @@ const Login = () => {
                 className="bg-cred rounded-full rspadding-w-3.5"
                 onPress={() => handleGoogleLogin()}>
                 <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-                  <FontAwesome name="google-plus" size={fp(2.5)} /> Login With
-                  Google
+                  <FontAwesome name="google-plus" size={fp(2.5)} />{' '}
+                  {t('login.button.facebook')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -244,13 +246,13 @@ const Login = () => {
             <View className="rspaddingTop-h-3 flex-row justify-between">
               <TouchableOpacity onPress={() => navigation.push('SignUp')}>
                 <Text className="text-sizeActive font-bold rsfontSize-f-2 rspadding-w-1">
-                  Sign Up?
+                  {t('login.button.signup')}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigation.push('ForgotPassword')}>
                 <Text className="text-sizeActive font-bold rsfontSize-f-2 rspadding-w-1">
-                  Forgot Password?
+                  {t('login.button.forgot')}
                 </Text>
               </TouchableOpacity>
             </View>

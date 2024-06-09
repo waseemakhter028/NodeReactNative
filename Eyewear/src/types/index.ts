@@ -416,6 +416,11 @@ export interface ProfilePhoto {
   uri: string;
   width: number;
 }
+
+export interface LanguageProps {
+  name: string;
+  code: string;
+}
 /*** Dashboard Pages Interfaces End ***/
 
 /*** Common Pages Interfaces Start ***/

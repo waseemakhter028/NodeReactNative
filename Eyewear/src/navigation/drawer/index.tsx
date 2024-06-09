@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {useTranslation} from 'react-i18next';
 
 import CustomDrawer from './CustomDrawer';
 import {
@@ -9,6 +10,7 @@ import {
   ContactUsDrawer,
   CouponDrawer,
   HomeDrawer,
+  LanguageDrawer,
   ProfileDrawer,
 } from './CustomDrawerItem';
 import Colors from '../../constants/Colors';
@@ -18,11 +20,13 @@ import AddressScreen from '../../screens/dashboard/Address';
 import ContactUsScreen from '../../screens/dashboard/ContactUs';
 import CouponScreen from '../../screens/dashboard/Coupon';
 import HomeScreen from '../../screens/dashboard/Home';
+import LanguageScreen from '../../screens/dashboard/Language';
 import ProfileScreen from '../../screens/dashboard/Profile';
 
 const Drawer = createDrawerNavigator();
 
 const AppDrawer = () => {
+  const {t} = useTranslation();
   return (
     <Drawer.Navigator
       initialRouteName="ProfileDrawer"
@@ -43,7 +47,7 @@ const AppDrawer = () => {
         name="ProfileDrawer"
         component={ProfileScreen}
         options={{
-          title: 'Profile',
+          title: t('drawer.profile'),
           drawerIcon: ProfileDrawer,
         }}
       />
@@ -51,7 +55,7 @@ const AppDrawer = () => {
         name="HomeDrawer"
         component={HomeScreen}
         options={{
-          title: 'Home',
+          title: t('drawer.home'),
           drawerIcon: HomeDrawer,
         }}
       />
@@ -59,7 +63,7 @@ const AppDrawer = () => {
         name="AddressDrawer"
         component={AddressScreen}
         options={{
-          title: 'Address',
+          title: t('drawer.address'),
           drawerIcon: AddressDrawer,
         }}
       />
@@ -67,7 +71,7 @@ const AppDrawer = () => {
         name="CouponDrawer"
         component={CouponScreen}
         options={{
-          title: 'Coupon',
+          title: t('drawer.coupon'),
           drawerIcon: CouponDrawer,
         }}
       />
@@ -75,7 +79,7 @@ const AppDrawer = () => {
         name="AboutUsDrawer"
         component={AboutUsScreen}
         options={{
-          title: 'About Us',
+          title: t('drawer.aboutus'),
           drawerIcon: AboutUsDrawer,
         }}
       />
@@ -83,8 +87,16 @@ const AppDrawer = () => {
         name="ContactUsDrawer"
         component={ContactUsScreen}
         options={{
-          title: 'Contact Us',
+          title: t('drawer.contactus'),
           drawerIcon: ContactUsDrawer,
+        }}
+      />
+      <Drawer.Screen
+        name="LanguageDrawer"
+        component={LanguageScreen}
+        options={{
+          title: t('drawer.language'),
+          drawerIcon: LanguageDrawer,
         }}
       />
     </Drawer.Navigator>

@@ -1,28 +1,71 @@
 {
-  "hello": "Hello",
-  "outcome": "Outcome",
-  "tax": "Tax",
-  "clothing": "Clothing",
-  "electronic": "Electronic",
-  "transport": "Transport",
-  "shoes": "Shoes",
-  "summeryText": "Here, you can see a full summary of your past expenses.",
-  "changeLanguage": "Change Language",
-  "english": "English",
-  "hindi": "Hindi",
-  "french": "French",
-  "mandarin": "Mandarin",
+  "common": {
+    "info": "",
+    "success": "Success !",
+    "warning": "Warning !",
+    "error": "Error !"
+  },
+  "tabs": {
+    "home": "Home",
+    "notifi": "Notifi",
+    "cart": "Cart",
+    "order": "Order"
+  },
+  "drawer": {
+    "profile": "Profile",
+    "home": "Home",
+    "address": "Address",
+    "coupon": "Coupon",
+    "aboutus": "About Us",
+    "contactus": "Contact Us",
+    "language": "Language",
+    "tellfriend": "Tell a Friend",
+    "signout": "Sign Out"
+  },
+  "welcome":{
+    "title": "Eyewear",
+    "subtitle": "Glasses for everyone",
+    "next": "Next",
+    "letstart": "Let's start ...",
+    "line_1": "Vision is Fashion",
+    "line_2": "Your Vision is Our Mission",
+    "line_3": "Get Ready to See the World",
+    "line_4": "Seeing the World from a New Perspective",
+    "line_5": "We Bring You Clarity",
+    "line_6": "Better Vision for a Better You",
+    "line_7": "The World is Worth Seeing",
+    "line_8": "Keep Calm and Wear Glasses",
+    "line_9": "Look After Your Eyesight",
+    "line_10": "Your Future is Bright, See it Clearly"
+  },
   "login": {
-    "open_modal": "Open Modal",
-    "sign_in": "Sign In",
-    "email_place": "Email Address",
-    "password_place": "Password",
+    "title": "Sign In",
+    "label": {
+       "email": "Email Address",
+       "password": "Password"
+    },
+    "place": {
+       "email": "Email Address",
+       "password": "Password"
+    },
+    "button": {
+      "signin": "Sign In",
+      "facebook": "Login With Facebook",
+      "google": "Login With Google",
+      "signup": "Sign Up?",
+      "forgot": "Forgot Password?"
+    },
     "error": {
-      "email": "Invalid email",
-      "email_req": "Please enter your email address",
-      "password_req": "Please enter your password",
+      "email": "Please enter your email address",
+      "email_invalid": "Invalid email",
+      "email_max": "Email Id cannot be exceeds 50 characters",
+      "password": "Please enter your password",
       "password_min": "Minimum 8 chars long",
+      "password_max": "Password cannot be exceeds 50 characters",
       "password_match": "Must contain minimum 8 characters, at least one upper case letter, one number and one special character"
+    },
+    "res":{
+      "success": "Logged In Successfully !"
     }
   }
 }

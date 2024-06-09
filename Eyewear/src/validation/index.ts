@@ -12,18 +12,18 @@ const validSchema = yup.object().shape({
 const loginSchema = yup.object().shape({
   email: yup
     .string()
-    .email('Invalid email')
-    .required('Please enter your email address.')
-    .max(50, 'Email Id cannot be exceeds 50 characters'),
+    .email('login.error.email_invalid')
+    .required('login.error.email')
+    .max(50, 'login.error.email_max'),
   password: yup
     .string()
-    .min(8, 'Minimum 8 chars long')
-    .required('Please enter your password')
+    .min(8, 'login.error.password_min')
+    .required('login.error.password')
     .matches(
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\D)(?=.*?[#?!@$%^&*-]).{8,}$/,
-      'Must contain minimum 8 characters, at least one upper case letter, one number and one special character',
+      'login.error.password_match',
     )
-    .max(50, 'Password cannot be exceeds 50 characters'),
+    .max(50, 'login.error.password_max'),
 });
 
 const resendSchema = yup.object().shape({
