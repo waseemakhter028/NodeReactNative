@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 import {FormikProvider, useFormik} from 'formik';
+import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -23,6 +24,7 @@ import {NavigationProps, SignUpValidationProps} from '../../types';
 import {signUpSchema} from '../../validation';
 
 const SignUp = () => {
+  const {t} = useTranslation();
   const {Toast} = useContext();
   const {setSignUpVerify} = useAppContext();
   const [isHidePass, setIsHidePass] = useState<boolean>(true);
@@ -58,18 +60,13 @@ const SignUp = () => {
           verify: true,
           email: values.email,
         });
-        Toast(
-          'success',
-          'Success !',
-          'Successfully Sign up. Please verify your account',
-          2000,
-        );
+        Toast('success', t('common.success'), t('signup.res.success'), 2000);
         setTimeout(() => navigation.push('SignUpVerify'), 100);
       } else {
-        Toast('danger', 'Error !', res.message);
+        Toast('danger', t('common.error'), res.message);
       }
     } catch (e: any) {
-      Toast('warning', 'Warning !', e.message);
+      Toast('warning', t('common.warning'), e.message);
     } finally {
       setLoading(false);
     }
@@ -92,7 +89,7 @@ const SignUp = () => {
           />
         </View>
         <Text className="text-white font-bold rsfontSize-f-3 rsmarginTop-h-3">
-          Sign Up
+          {t('signup.title')}
         </Text>
         {/* Form container */}
         <FormikProvider value={formik}>
@@ -100,10 +97,10 @@ const SignUp = () => {
             {/* fullname field */}
             <View>
               <Text className="text-sizeActive font-bold rsfontSize-f-2 rspadding-w-1.5">
-                Fullname
+                {t('signup.label.name')}
               </Text>
               <TextInput
-                placeholder="Fullname"
+                placeholder={t('signup.place.name')}
                 maxLength={50}
                 placeholderTextColor={
                   touched.name && errors.name ? Colors.cred : Colors.cinputCol
@@ -119,17 +116,17 @@ const SignUp = () => {
               />
               {touched.name && errors.name && (
                 <Text className="text-cred rsfontSize-f-1.5 rspaddingLeft-w-1.5 rspaddingTop-h-0.5">
-                  {errors.name}
+                  {t(errors.name)}
                 </Text>
               )}
             </View>
             {/* email field */}
             <View className="rspaddingTop-h-2">
               <Text className="text-sizeActive font-bold rsfontSize-f-2 rspadding-w-1.5">
-                Email ID
+                {t('signup.label.email')}
               </Text>
               <TextInput
-                placeholder="Email Address"
+                placeholder={t('signup.place.email')}
                 maxLength={50}
                 placeholderTextColor={
                   touched.email && errors.email ? Colors.cred : Colors.cinputCol
@@ -145,14 +142,14 @@ const SignUp = () => {
               />
               {touched.email && errors.email && (
                 <Text className="text-cred rsfontSize-f-1.5 rspaddingLeft-w-1.5 rspaddingTop-h-0.5">
-                  {errors.email}
+                  {t(errors.email)}
                 </Text>
               )}
             </View>
             {/* password field */}
             <View className="rspaddingTop-h-2">
               <Text className="text-sizeActive font-bold rsfontSize-f-2 rspadding-w-1.5">
-                Password
+                {t('signup.label.password')}
               </Text>
               <View
                 className={`bg-white rounded-full rsheight-h-6 flex-row justify-between items-center ${
@@ -163,7 +160,7 @@ const SignUp = () => {
                 <TextInput
                   secureTextEntry={isHidePass}
                   maxLength={50}
-                  placeholder="Password"
+                  placeholder={t('signup.place.password')}
                   placeholderTextColor={
                     touched.password && errors.password
                       ? Colors.cred
@@ -190,7 +187,7 @@ const SignUp = () => {
               </View>
               {touched.password && errors.password && (
                 <Text className="text-cred rsfontSize-f-1.5  rspaddingLeft-w-1.5 rspaddingTop-h-0.5">
-                  {errors.password}
+                  {t(errors.password)}
                 </Text>
               )}
             </View>
@@ -201,7 +198,7 @@ const SignUp = () => {
                 className="bg-cprimaryDark rounded-full rspadding-w-3.5"
                 onPress={() => handleSubmit()}>
                 <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-                  Sign Up
+                  {t('signup.button.signup')}
                 </Text>
               </ButtonWithLoader>
             </View>
@@ -209,7 +206,7 @@ const SignUp = () => {
             <View className="rspaddingTop-h-2 items-end">
               <TouchableOpacity onPress={() => navigation.push('Login')}>
                 <Text className="text-sizeActive font-bold rsfontSize-f-2 rspaddingRight-w-3">
-                  Already have an account? Login
+                  {t('signup.button.login')}
                 </Text>
               </TouchableOpacity>
             </View>

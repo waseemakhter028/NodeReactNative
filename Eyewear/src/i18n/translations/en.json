@@ -67,5 +67,59 @@
     "res":{
       "success": "Logged In Successfully !"
     }
+  },
+  "signup": {
+    "title": "Sign In",
+    "label": { 
+       "name": "Fullname",
+       "email": "Email Address",
+       "password": "Password"
+    },
+    "place": {
+       "name": "Fullname",
+       "email": "Email Address",
+       "password": "Password"
+    },
+    "button": {
+      "signup": "Sign Up",
+      "login": "ALready have an account? Login"
+    },
+    "error": {
+      "email": "Please enter your email address",
+      "email_invalid": "Invalid email",
+      "email_max": "Email Id cannot be exceeds 50 characters",
+      "password": "Please enter your password",
+      "password_min": "Minimum 8 chars long",
+      "password_max": "Password cannot be exceeds 50 characters",
+      "password_match": "Must contain minimum 8 characters, at least one upper case letter, one number and one special character",
+      "name": "Please Enter Name",
+      "name_min": "Name atleast 2 chars long",
+      "name_max": "Name cannot exceeds 40 chars",
+      "name_match": "Only chars and space are allowed"
+    },
+    "res":{
+      "success": "Successfully Sign up. Please verify your account"
+    }
+  },
+  "forgot": {
+    "title": "Forgot Password",
+    "label": {
+       "email": "Enter Email Id (Email Id To Receive New Password)"
+    },
+    "place": {
+       "email": "Email Address"
+    },
+    "button": {
+      "submit": "Submit",
+      "login": "Remember Password? Login"
+    },
+    "error": {
+      "email": "Please enter your email address",
+      "email_invalid": "Invalid email",
+      "email_max": "Email Id cannot be exceeds 50 characters"
+    },
+    "res":{
+      "success": "Password Sent On Email Successfully !"
+    }
   }
 }

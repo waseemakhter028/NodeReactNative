@@ -79,10 +79,10 @@ const Login = () => {
         });
         navigation.push('SignUpVerify');
       } else {
-        Toast('danger', 'Error !', res.message);
+        Toast('danger', t('common.error'), res.message);
       }
     } catch (e: any) {
-      Toast('warning', 'Warning !', e.message);
+      Toast('warning', t('common.warning'), e.message);
     } finally {
       setLoading(false);
     }

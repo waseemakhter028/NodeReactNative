@@ -38,25 +38,25 @@ const resendSchema = yup.object().shape({
 const signUpSchema = yup.object().shape({
   email: yup
     .string()
-    .email('Invalid email')
-    .required('Please enter your email address.')
-    .max(50, 'Email Id cannot be exceeds 50 characters'),
+    .email('signup.error.email_invalid')
+    .required('signup.error.email')
+    .max(50, 'signup.error.email_max'),
   password: yup
     .string()
-    .min(8, 'Minimum 8 chars long')
-    .required('Please enter your password')
+    .min(8, 'signup.error.password_min')
+    .required('signup.error.password')
     .matches(
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\D)(?=.*?[#?!@$%^&*-]).{8,}$/,
-      'Must contain minimum 8 characters, at least one upper case letter, one number and one special character',
+      'signup.error.password_match',
     )
-    .max(50, 'Password cannot be exceeds 50 characters'),
+    .max(50, 'signup.error.password_max'),
   name: yup
     .string()
     .trim()
-    .required('Please Enter Name')
-    .min(2, 'Name atleast 2 chars long')
-    .max(40, 'Name cannot exceeds 40 chars')
-    .matches(/^[a-zA-Z ]*$/, 'Only chars and space are allowed'),
+    .required('signup.error.name')
+    .min(2, 'signup.error.name_min')
+    .max(40, 'signup.error.name_max')
+    .matches(/^[a-zA-Z ]*$/, 'signup.error.name_match'),
 });
 
 const verifySchema = yup.object().shape({
@@ -71,9 +71,9 @@ const forgotSchema = yup.object().shape({
   email: yup
     .string()
     .trim()
-    .email('Invalid email')
-    .required('Please enter your email address.')
-    .max(50, 'Email Id cannot be exceeds 50 characters'),
+    .email('forgot.error.email_invalid')
+    .required('forgot.error.email')
+    .max(50, 'forgot.error.email_max'),
 });
 
 const addressSchema = yup.object().shape({

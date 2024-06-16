@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 import {FormikProvider, useFormik} from 'formik';
+import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Colors from '../../constants/Colors';
@@ -21,6 +22,7 @@ import {forgotSchema} from '../../validation';
 
 const ForgotPassword = () => {
   const {Toast} = useContext();
+  const {t} = useTranslation();
   const navigation: NavigationProps = useNavigation();
   const [loading, setLoading] = useState<boolean>(false);
   const formik = useFormik({
@@ -46,18 +48,13 @@ const ForgotPassword = () => {
       const res = info.data;
       if (res.success === true) {
         resetForm();
-        Toast(
-          'success',
-          'Success !',
-          'Password Sent On Email Successfully !',
-          3000,
-        );
+        Toast('success', t('common.success'), t('forgot.res.success'), 3000);
         navigation.push('Login');
       } else {
-        Toast('danger', 'Error !', res.message);
+        Toast('danger', t('common.error'), res.message);
       }
     } catch (e: any) {
-      Toast('warning', 'Warning !', e.message);
+      Toast('warning', t('common.warning'), e.message);
     } finally {
       setLoading(false);
     }
@@ -80,7 +77,7 @@ const ForgotPassword = () => {
           />
         </View>
         <Text className="text-white font-bold rsfontSize-f-3 rsmarginTop-h-3">
-          Forgot Password
+          {t('forgot.title')}
         </Text>
         {/* Form container */}
         <FormikProvider value={formik}>
@@ -88,10 +85,10 @@ const ForgotPassword = () => {
             {/* otp field */}
             <View>
               <Text className="text-sizeActive font-bold rsfontSize-f-2 rspadding-w-1.5">
-                Enter Email Id (Email Id To Receive New Password)
+                {t('forgot.label.email')}
               </Text>
               <TextInput
-                placeholder="Enter Email Id"
+                placeholder={t('forgot.place.email')}
                 maxLength={50}
                 placeholderTextColor={
                   touched.email && errors.email ? Colors.cred : Colors.cinputCol
@@ -107,7 +104,7 @@ const ForgotPassword = () => {
               />
               {touched.email && errors.email && (
                 <Text className="text-cred rsfontSize-f-1.5 rspaddingLeft-w-1.5 rspaddingTop-h-0.5">
-                  {errors.email}
+                  {t(errors.email)}
                 </Text>
               )}
             </View>
@@ -118,7 +115,7 @@ const ForgotPassword = () => {
                 className="bg-cprimaryDark rounded-full rspadding-w-3.5"
                 onPress={() => handleSubmit()}>
                 <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-                  Submit
+                  {t('forgot.button.submit')}
                 </Text>
               </ButtonWithLoader>
             </View>
@@ -126,7 +123,7 @@ const ForgotPassword = () => {
             <View className="rspaddingTop-h-2 items-end">
               <TouchableOpacity onPress={() => navigation.push('Login')}>
                 <Text className="text-sizeActive font-bold rsfontSize-f-2 rspadding-w-1 rspaddingRight-w-4">
-                  Remember Password? Login
+                  {t('forgot.button.login')}
                 </Text>
               </TouchableOpacity>
             </View>
