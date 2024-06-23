@@ -62,9 +62,9 @@ const signUpSchema = yup.object().shape({
 const verifySchema = yup.object().shape({
   otp: yup
     .array()
-    .of(yup.string().matches(/^[0-9]$/, 'Only Numbers are allowed'))
-    .min(6, 'OTP should be 6 digits')
-    .max(6, 'OTP cannot be exceeds 6 digits'),
+    .of(yup.string().matches(/^[0-9]$/, 'signupverify.error.otp'))
+    .min(6, 'signupverify.error.otp_min')
+    .max(6, 'signupverify.error.otp_max'),
 });
 
 const forgotSchema = yup.object().shape({

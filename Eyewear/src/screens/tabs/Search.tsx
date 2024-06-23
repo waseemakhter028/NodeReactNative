@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, Keyboard, Modal, StyleSheet} from 'react-native';
 
+import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -80,6 +81,7 @@ const SearchProductCard = ({item}: ProductCardProps) => {
 };
 
 const Search = () => {
+  const {t} = useTranslation();
   const {Toast} = useContext();
   const {setCurrentRoute} = useAppContext();
   const [loading, setLoading] = useState<boolean>(true);
@@ -126,10 +128,10 @@ const Search = () => {
       if (res.success === true) {
         setCategoriesData(res.data);
       } else {
-        Toast('danger', 'Error !', res.message);
+        Toast('danger', t('common.error'), res.message);
       }
     } catch (e: any) {
-      Toast('warning', 'Warning !', e.message);
+      Toast('warning', t('common.warning'), e.message);
     }
   };
 
@@ -190,10 +192,10 @@ const Search = () => {
           setIsClearAll(true);
         }
       } else {
-        Toast('danger', 'Error !', res.message);
+        Toast('danger', t('common.error'), res.message);
       }
     } catch (e: any) {
-      Toast('warning', 'Warning !', e.message);
+      Toast('warning', t('common.warning'), e.message);
     } finally {
       setLoading(false);
     }
@@ -230,7 +232,7 @@ const Search = () => {
         <View className="bg-white rsborderRadius-w-2 rsheight-h-6 rsfontSize-f-2.5 rspaddingHorizontal-w-5 placeholder-cinputCol  items-center flex-row">
           <Fontisto name="search" color={Colors.cinputCol} size={fp(3)} />
           <TextInput
-            placeholder="Search ..."
+            placeholder={t('search.place.search')}
             value={searchValue}
             placeholderTextColor={Colors.cinputCol}
             className="bg-white rsborderRadius-w-2 rsheight-h-6 rsfontSize-f-2.5 rspaddingHorizontal-w-5 placeholder-cinputCol"
@@ -248,7 +250,7 @@ const Search = () => {
               className={`rsfontSize-f-1.5 ${
                 priceOrder !== '' ? 'text-cprimaryDark' : 'text-cblue'
               }`}>
-              Price
+              {t('search.button.price')}
             </Text>
           </Pressable>
           <Pressable
@@ -260,7 +262,7 @@ const Search = () => {
               className={`rsfontSize-f-1.5 ${
                 categories.length > 0 ? 'text-cprimaryDark' : 'text-cblue'
               }`}>
-              Categories
+              {t('search.button.categories')}
             </Text>
           </Pressable>
           <Pressable
@@ -272,7 +274,7 @@ const Search = () => {
                 reviews.length > 0 ? 'text-cprimaryDark' : 'text-cblue'
               }`}
               onPress={() => setOpenReviewModal(true)}>
-              Reviews
+              {t('search.button.reviews')}
             </Text>
           </Pressable>
           {isClearAll && (
@@ -280,7 +282,7 @@ const Search = () => {
               className="rsborderWidth-h-0.1 border-cprimaryDark bg-cinputBg rounded-full items-center justify-center rsheight-h-3 rswidth-w-18"
               onPress={() => handleClear()}>
               <Text className="rsfontSize-f-1.5 text-cprimaryDark">
-                Clear All
+                {t('search.button.clear_all')}
               </Text>
             </TouchableOpacity>
           )}
@@ -319,7 +321,7 @@ const Search = () => {
           <View className="flex-1  items-center">
             <View className="rswidth-w-100 rsheight-h-90 bg-white rspadding-w-4.5 rsborderRadius-w-5">
               <Text className="rsfontSize-f-3 text-productTitle text-center rspaddingTop-h-2">
-                Price
+                {t('search.price.title')}
               </Text>
               <View className="rsmarginTop-h-10 items-center">
                 {/* all */}
@@ -337,7 +339,7 @@ const Search = () => {
                     />
                   </TouchableOpacity>
                   <Text className="rsfontSize-f-2.5 text-productTitle rsmarginTop-h-1">
-                    All
+                    {t('search.price.all')}
                   </Text>
                 </View>
                 {/* low to high */}
@@ -357,7 +359,7 @@ const Search = () => {
                     />
                   </TouchableOpacity>
                   <Text className="rsfontSize-f-2.5 text-productTitle rsmarginTop-h-1">
-                    Low To High
+                    {t('search.price.low_to_high')}
                   </Text>
                 </View>
                 {/* high to low */}
@@ -377,7 +379,7 @@ const Search = () => {
                     />
                   </TouchableOpacity>
                   <Text className="rsfontSize-f-2.5 text-productTitle rsmarginTop-h-1">
-                    High To Low
+                    {t('search.price.high_to_low')}
                   </Text>
                 </View>
                 {/* button section*/}
@@ -390,7 +392,7 @@ const Search = () => {
                         setOpenPriceModal(false);
                       }}>
                       <Text className="text-center rsfontSize-f-2 font-bold text-white">
-                        Close
+                        {t('search.button.close')}
                       </Text>
                     </Pressable>
                     <Pressable
@@ -402,7 +404,7 @@ const Search = () => {
                         fetchProducts(1, true);
                       }}>
                       <Text className="text-center rsfontSize-f-2 font-bold text-white">
-                        Apply
+                        {t('search.button.apply')}
                       </Text>
                     </Pressable>
                   </View>
@@ -422,7 +424,7 @@ const Search = () => {
           <View className="flex-1  items-center">
             <View className="rswidth-w-100 rsheight-h-90 bg-white rspadding-w-4.5 rsborderRadius-w-5">
               <Text className="rsfontSize-f-3 text-productTitle text-center rspaddingTop-h-2">
-                Categories
+                {t('search.categories')}
               </Text>
               <View className="rsmarginTop-h-10 items-center">
                 {/* list category */}
@@ -471,7 +473,7 @@ const Search = () => {
                         setOpenCategoryModal(false);
                       }}>
                       <Text className="text-center rsfontSize-f-2 font-bold text-white">
-                        Close
+                        {t('search.button.close')}
                       </Text>
                     </Pressable>
                     <Pressable
@@ -483,7 +485,7 @@ const Search = () => {
                         fetchProducts(1, true);
                       }}>
                       <Text className="text-center rsfontSize-f-2 font-bold text-white">
-                        Apply
+                        {t('search.button.apply')}
                       </Text>
                     </Pressable>
                   </View>
@@ -503,7 +505,7 @@ const Search = () => {
           <View className="flex-1  items-center">
             <View className="rswidth-w-100 rsheight-h-90 bg-white rspadding-w-4.5 rsborderRadius-w-5">
               <Text className="rsfontSize-f-3 text-productTitle text-center rspaddingTop-h-2">
-                Customer Reviews
+                {t('search.reviews')}
               </Text>
               <View className="rsmarginTop-h-10 items-center">
                 {/* list category */}
@@ -560,7 +562,7 @@ const Search = () => {
                         setOpenReviewModal(false);
                       }}>
                       <Text className="text-center rsfontSize-f-2 font-bold text-white">
-                        Close
+                        {t('search.button.close')}
                       </Text>
                     </Pressable>
                     <Pressable
@@ -572,7 +574,7 @@ const Search = () => {
                         fetchProducts(1, true);
                       }}>
                       <Text className="text-center rsfontSize-f-2 font-bold text-white">
-                        Apply
+                        {t('search.button.apply')}
                       </Text>
                     </Pressable>
                   </View>

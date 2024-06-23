@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 
+import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -50,6 +51,8 @@ const RenderIcon = ({status}: NotificationsIconProps) => {
 };
 
 const NoticationCard = ({data}: NotificationsCardProps) => {
+  const {t} = useTranslation();
+  const description = data.body.split(' ');
   return (
     <View className="bg-cinputBg rsmarginTop-h-2 rsheight-h-10 justify-center rsborderRadius-w-3">
       <View className="flex-row rsgap-w-5">
@@ -61,7 +64,7 @@ const NoticationCard = ({data}: NotificationsCardProps) => {
             className={`rsfontSize-f-2 font-bold rscolor-${statusColor(
               data.title,
             )}`}>
-            {data.title}
+            {t(`notification.status.${data.title}`)}
           </Text>
         </View>
         <Text className="rsfontSize-f-1.5 rsfontWeight-600 text-cblue text-end">
@@ -69,7 +72,8 @@ const NoticationCard = ({data}: NotificationsCardProps) => {
         </Text>
         <View className="rsposition-absolute  rsmarginTop-h-4 rsmarginLeft-w-19 flex-row">
           <Text className="text-productPrice rsfontSize-f-1.5 rsfontWeight-600">
-            {data.body}
+            {t('notification.description', {orderId: description[2]})}
+            {t(`common.status.${description[5]}`)}
           </Text>
           <View className="rsheight-h-1 rswidth-h-1 rsborderRadius-h-0.5 bg-cblue rsmarginTop-h-0.5 rsmarginLeft-w-2" />
         </View>
@@ -78,6 +82,7 @@ const NoticationCard = ({data}: NotificationsCardProps) => {
   );
 };
 const Notificaions = () => {
+  const {t} = useTranslation();
   const {setCurrentRoute} = useAppContext();
   const {Toast} = useContext();
   const [notificationsData, setNotificationsData] = useState<
@@ -104,7 +109,7 @@ const Notificaions = () => {
 
     const res = data;
     if (error) {
-      Toast('warning', 'Warning !', error.message);
+      Toast('warning', t('common.warning'), error.message);
     } else if (!error) {
       if (res.success === true) {
         const peg = {
@@ -121,7 +126,7 @@ const Notificaions = () => {
         setPages(peg);
         setNotificationsData([...notificationsData, ...res.data.data]);
       } else {
-        Toast('danger', 'Error !', res.message);
+        Toast('danger', t('common.error'), res.message);
       }
     }
     setLoading(false);
@@ -144,7 +149,9 @@ const Notificaions = () => {
       </View>
       {/* content */}
       <View className="rsmarginTop-h-2.5">
-        <Text className="rsfontSize-f-3 text-productTitle">Notifications</Text>
+        <Text className="rsfontSize-f-3 text-productTitle">
+          {t('notification.title')}
+        </Text>
         <FlatList
           numColumns={1}
           data={notificationsData}

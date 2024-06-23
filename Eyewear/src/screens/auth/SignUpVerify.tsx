@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 import {FormikProvider, useFormik} from 'formik';
+import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Colors from '../../constants/Colors';
@@ -23,6 +24,7 @@ import {verifySchema} from '../../validation';
 
 const SignUpVerify = () => {
   const {Toast} = useContext();
+  const {t} = useTranslation();
   const {signUpVerify, setSignUpVerify} = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -116,12 +118,12 @@ const SignUpVerify = () => {
       const res = info.data;
       if (res.success === true) {
         setRemainingTime(60);
-        Toast('success', 'Success !', 'OTP resend on email successfully !!');
+        Toast('success', t('common.success'), t('signupverify.res.success'));
       } else {
-        Toast('danger', 'Error !', res.message);
+        Toast('danger', t('common.error'), res.message);
       }
     } catch (e: any) {
-      Toast('warning', 'Warning !', e.message);
+      Toast('warning', t('common.warning'), e.message);
     }
   };
 
@@ -142,7 +144,7 @@ const SignUpVerify = () => {
           />
         </View>
         <Text className="text-white font-bold rsfontSize-f-3 rsmarginTop-h-3">
-          Account Verification
+          {t('signupverify.title')}
         </Text>
         {/* Form container */}
         <FormikProvider value={formik}>
@@ -150,7 +152,7 @@ const SignUpVerify = () => {
             {/* otp field */}
             <View>
               <Text className="text-sizeActive font-bold rsfontSize-f-2 rspadding-w-1.5">
-                Enter OTP (OTP Is Already Sent Your Email)
+                {t('signupverify.label.otp')}
               </Text>
               <View className="flex-row rsgap-w-1.8">
                 {[1, 2, 3, 4, 5, 6].map((item, index) => (
@@ -173,7 +175,7 @@ const SignUpVerify = () => {
               </View>
               {touched.otp && errors.otp && (
                 <Text className="text-cred rsfontSize-f-1.5 rspaddingLeft-w-1.5 rspaddingTop-h-0.5">
-                  {errors.otp}
+                  {t(errors.otp)}
                 </Text>
               )}
             </View>
@@ -184,7 +186,7 @@ const SignUpVerify = () => {
                 className="bg-cprimaryDark rounded-full rspadding-w-3.5"
                 onPress={() => handleSubmit()}>
                 <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-                  Submit
+                  {t('signupverify.button.submit')}
                 </Text>
               </ButtonWithLoader>
             </View>
@@ -201,8 +203,10 @@ const SignUpVerify = () => {
                     isResendOTPDisable ? 'text-cprimaryDark' : 'text-white'
                   }`}>
                   {isResendOTPDisable
-                    ? `Resend OTP Enable: ${formatTime(remainingTime)}`
-                    : 'Resend OTP'}
+                    ? `${t('signupverify.button.resend_enable')}: ${formatTime(
+                        remainingTime,
+                      )}`
+                    : t('signupverify.button.resend')}
                 </Text>
               </Pressable>
             </View>
@@ -210,7 +214,7 @@ const SignUpVerify = () => {
             <View className="rspaddingTop-h-2 items-end">
               <TouchableOpacity onPress={() => navigation.push('Login')}>
                 <Text className="text-sizeActive font-bold rsfontSize-f-2 rspadding-w-1 rspaddingRight-w-4">
-                  Already Verified? Login
+                  {t('signupverify.button.login')}
                 </Text>
               </TouchableOpacity>
             </View>

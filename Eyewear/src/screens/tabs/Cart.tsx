@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 
 import CartCard from '../../components/CartCard';
@@ -18,6 +19,7 @@ import {Image, Text, TextPrice, TouchableOpacity, View} from '../../storybook';
 import {CartItemsProps, NavigationProps} from '../../types';
 
 const CartScreen = () => {
+  const {t} = useTranslation();
   const {Toast} = useContext();
   const {setCartCount, setIsCheckout, setCurrentRoute} = useAppContext();
   const [loading, setLoading] = useState<boolean>(true);
@@ -36,20 +38,15 @@ const CartScreen = () => {
     });
     const res = data;
     if (error) {
-      Toast('warning', 'Warning !', error.message);
+      Toast('warning', t('common.warning'), error.message);
     } else if (!error) {
       if (res.success === true) {
-        Toast(
-          'success',
-          'Success !',
-          'Product Remove From Cart Successfully !',
-          2000,
-        );
+        Toast('success', t('common.success'), t('cart.res.removed'), 2000);
         setDeleteCartId('');
         setDeleteModal(false);
         fetchUserCart();
       } else {
-        Toast('danger', 'Error !', res.message);
+        Toast('danger', t('common.error'), res.message);
       }
     }
   };
@@ -66,14 +63,14 @@ const CartScreen = () => {
     });
     const res = data;
     if (error) {
-      Toast('warning', 'Warning !', error.message);
+      Toast('warning', t('common.warning'), error.message);
     } else if (!error) {
       if (res.success === true) {
-        Toast('success', 'Success !', 'Cart Updated Successfully !', 2000);
+        Toast('success', t('common.success'), t('cart.res.updated'), 2000);
         setLoading(true);
         fetchUserCart();
       } else {
-        Toast('danger', 'Error !', res.message);
+        Toast('danger', t('common.error'), res.message);
       }
     }
   };
@@ -83,7 +80,7 @@ const CartScreen = () => {
     const {data, error} = await axiosCall('/carts?user_id=' + user.id);
     const res = data;
     if (error) {
-      Toast('warning', 'Warning !', error.message);
+      Toast('warning', t('common.warning'), error.message);
     } else if (!error) {
       if (res.success === true) {
         await saveToAsyncStorage({
@@ -102,7 +99,7 @@ const CartScreen = () => {
           setSubtotal(sumSubTotal);
         }
       } else {
-        Toast('danger', 'Error !', res.message);
+        Toast('danger', t('common.error'), res.message);
       }
     }
     setLoading(false);
@@ -134,7 +131,7 @@ const CartScreen = () => {
               modalOpen={deleteModal}
               setModalOpen={setDeleteModal}
               handleDelete={reomveCartItem}
-              message="Are you sure delete this product from cart ?"
+              message={t('cart.res.deleted')}
             />
           )}
           <FlatList
@@ -152,23 +149,21 @@ const CartScreen = () => {
             contentContainerStyle={{marginTop: hp(4.7), paddingBottom: hp(10)}}
           />
           {/* Price Container */}
-          <View className="rsmarginTop-h-5.71">
+
+          <View className="rsmarginTop-h-5.71 rsmarginBottom-h-2">
+            <View
+              className={`rsborderWidth-h-0.1 rsborderColor-${Colors.cinputCol} rsmarginVertical-h-1.18`}
+            />
             <View className="flex-row justify-between rsmarginHorizontal-w-4.9 rsmarginVertical-h-1.18">
-              <Text className="text-cartText rsfontSize-f-2.2">Total:</Text>
+              <Text className="text-productTitle rsfontSize-f-2.2">
+                {t('cart.label.total')}:
+              </Text>
               <TextPrice className="text-cartText rsfontSize-f-2.2">
                 {subtotal}
               </TextPrice>
             </View>
           </View>
-          <View
-            className={`rsborderWidth-h-0.1 rsborderColor-${Colors.cinputCol} rsmarginVertical-h-1.18`}
-          />
-          <View className="flex-row justify-between rsmarginHorizontal-w-4.9 rsmarginVertical-h-2">
-            <Text className="text-cartText rsfontSize-f-2.2">Grand Total:</Text>
-            <TextPrice className="text-productTitle rsfontSize-f-2.2 rsfontWeight-700">
-              {subtotal}
-            </TextPrice>
-          </View>
+
           {/* button container */}
           <TouchableOpacity
             className="bg-cprimaryDark rspadding-w-3 rsborderRadius-w-3"
@@ -177,7 +172,7 @@ const CartScreen = () => {
               setTimeout(() => navigation.push('Checkout'), 100);
             }}>
             <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-              Checkout
+              {t('cart.button.checkout')}
             </Text>
           </TouchableOpacity>
         </React.Fragment>
@@ -194,7 +189,7 @@ const CartScreen = () => {
             className="bg-lightgreen  rsheight-h-6 rswidth-w-85 rsborderRadius-w-4 items-center justify-center"
             onPress={() => navigation.push('Home')}>
             <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-              Shop Now
+              {t('cart.button.shop_now')}
             </Text>
           </TouchableOpacity>
         </View>

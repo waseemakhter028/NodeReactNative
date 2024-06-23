@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, Keyboard, StyleSheet} from 'react-native';
 
+import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
@@ -20,6 +21,7 @@ import {TextInput, View} from '../storybook';
 import {HomeProductsProps, HomeRatingProps, PaginationProps} from '../types';
 
 const HomeScreen = () => {
+  const {t} = useTranslation();
   const {setCartCount, setCurrentRoute} = useAppContext();
   const {Toast} = useContext();
   const [loading, setLoading] = useState<boolean>(false);
@@ -114,7 +116,7 @@ const HomeScreen = () => {
         <View className="bg-white rsborderRadius-w-2 rsheight-h-6 rsfontSize-f-2.5 rspaddingHorizontal-w-5 placeholder-cinputCol  items-center flex-row">
           <Fontisto name="search" color={Colors.cinputCol} size={fp(3)} />
           <TextInput
-            placeholder="Search ..."
+            placeholder={t('home.place.search')}
             placeholderTextColor={Colors.cinputCol}
             className="bg-white rsborderRadius-w-2 rsheight-h-6 rsfontSize-f-2.5 rspaddingHorizontal-w-5 placeholder-cinputCol"
             onChangeText={(text: string) => handleSearch(text)}

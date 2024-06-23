@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
 
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Header from '../components/Header';
@@ -33,7 +34,6 @@ import {
   RouteProps,
 } from '../types';
 
-const sizes = ['S', 'M', 'L', 'XL'];
 const colors = [
   '#91A1B0',
   '#B11D1D',
@@ -44,7 +44,9 @@ const colors = [
 ];
 
 const ProductDetailScreen = () => {
+  const {t} = useTranslation();
   const {Toast} = useContext();
+  const sizes = t('product_detail.sizes').split(' ');
   const route: RouteProps = useRoute();
   const navigation: NavigationProps = useNavigation();
   const product = route.params.item;
@@ -88,13 +90,13 @@ const ProductDetailScreen = () => {
     });
     const res = data;
     if (error) {
-      Toast('warning', 'Warning !', error.message);
+      Toast('warning', t('common.warning'), error.message);
     } else if (!error) {
       if (res.success === true) {
-        Toast('success', 'Success !', 'Item added cart successfully !!');
+        Toast('success', t('common.success'), t('product_detail.res.success'));
         navigation.navigate('CartTab');
       } else {
-        Toast('danger', 'Error !', res.message);
+        Toast('danger', t('common.error'), res.message);
       }
     }
     setAddToCartLoader(false);
@@ -115,10 +117,10 @@ const ProductDetailScreen = () => {
       } else if (res.status === 405 && res.message === 'product not found') {
         navigation.push('Home');
       } else {
-        Toast('danger', 'Error !', res.message);
+        Toast('danger', t('common.error'), res.message);
       }
     } catch (e: any) {
-      Toast('warning', 'Warning !', e.message);
+      Toast('warning', t('common.warning'), e.message);
     } finally {
       setLoading(false);
     }
@@ -169,13 +171,16 @@ const ProductDetailScreen = () => {
             <RatingStar rating={extra?.avg_rating} size={3} gap={1.5} />
             <Text className="rsfontSize-f-2.5 text-cprimaryDark font-bold">
               ({extra?.reviewsCount}{' '}
-              {extra?.reviewsCount > 1 ? 'reviews' : 'review'})
+              {extra?.reviewsCount > 1
+                ? t('product_detail.reviews')
+                : t('product_detail.review')}
+              )
             </Text>
           </View>
         </View>
         {/* size container */}
         <Text className="rsfontSize-f-2 text-productTitle rsfontWeight-500 rsmarginHorizontal-w-4.9">
-          Size
+          {t('product_detail.size')}
         </Text>
         <View className="flex-row marginHorizontal-w-4.9">
           {sizes.map((size: string) => (
@@ -196,7 +201,7 @@ const ProductDetailScreen = () => {
         </View>
         {/* size container */}
         <Text className="rsfontSize-f-2 text-productTitle rsfontWeight-500 rsmarginHorizontal-w-4.9 rsmarginTop-h-1.18">
-          Colors
+          {t('product_detail.colors')}
         </Text>
         <View className="flex-row rsmarginHorizontal-w-2 items-center">
           {colors.map((color: string) => (
@@ -215,7 +220,7 @@ const ProductDetailScreen = () => {
         {/* Availalbility Container */}
         <View className="flex-row justify-between rsmarginTop-h-3 rsmarginHorizontal-w-4.9">
           <Text className="rsfontSize-f-2 text-productTitle rsfontWeight-500">
-            Availability
+            {t('product_detail.availability')}
           </Text>
           <Pressable
             className={`${
@@ -224,7 +229,9 @@ const ProductDetailScreen = () => {
                 : 'bg-cred rswidth-w-32'
             }  rspadding-w-1 rounded-full`}>
             <Text className="text-center rsfontSize-f-2 font-bold text-white">
-              {productDetail?.qty > 0 ? 'In Stock' : 'Out Of Stock'}
+              {productDetail?.qty > 0
+                ? t('product_detail.in_stock')
+                : t('product_detail.out_of_stock')}
             </Text>
           </Pressable>
         </View>
@@ -239,7 +246,7 @@ const ProductDetailScreen = () => {
         <View className="rsmarginTop-h-10 rsmarginHorizontal-w-4.9">
           <View className="items-center">
             <Text className="rsfontSize-f-2.5 text-productTitle rsfontWeight-500">
-              Related Products
+              {t('product_detail.related_products')}
             </Text>
             <View className="bg-cprimaryDark rsheight-h-0.5 rswidth-w-43" />
           </View>
@@ -253,7 +260,7 @@ const ProductDetailScreen = () => {
             className="bg-cprimaryDark rspadding-w-3 rsborderRadius-w-4"
             onPress={() => navigation.navigate('CartTab')}>
             <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-              Go To Cart
+              {t('product_detail.go_to_cart')}
             </Text>
           </TouchableOpacity>
         ) : (
@@ -262,7 +269,7 @@ const ProductDetailScreen = () => {
             className="bg-cprimaryDark rspadding-w-3 rsborderRadius-w-4"
             onPress={handleAddToCart}>
             <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-              Add To Cart
+              {t('product_detail.add_to_cart')}
             </Text>
           </ButtonWithLoader>
         )}

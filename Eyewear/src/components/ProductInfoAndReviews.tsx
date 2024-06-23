@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {FlatList} from 'react-native';
 
+import {useTranslation} from 'react-i18next';
+
 import NoData from './NoData';
 import RatingStar from './RatingStar';
 import {showNotifiDate} from '../helpers/common';
@@ -42,6 +44,7 @@ const ProductInfoAndReviews = ({
   information,
   reviews,
 }: ProductInfoAndReviewProps) => {
+  const {t} = useTranslation();
   const [isInfoTab, setIsInfoTab] = useState<boolean>(true);
   return (
     <View>
@@ -55,7 +58,7 @@ const ProductInfoAndReviews = ({
             className={`rsfontSize-f-2 ${
               isInfoTab ? 'text-cprimaryDark' : 'text-white'
             } text-center rsfontWeight-700`}>
-            Information
+            {t('product_detail.information_tab')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -67,14 +70,14 @@ const ProductInfoAndReviews = ({
             className={`rsfontSize-f-2  ${
               !isInfoTab ? 'text-cprimaryDark' : 'text-white'
             } text-center rsfontWeight-700`}>
-            Reviews
+            {t('product_detail.reviews_tab')}
           </Text>
         </TouchableOpacity>
       </View>
       {isInfoTab ? (
         <View className="rspaddingTop-h-2">
           <Text className="rsfontSize-f-2.5 text-productTitle rsfontWeight-500 text-center">
-            Product Information
+            {t('product_detail.product_information')}
           </Text>
           <Text className="rsfontSize-f-1.8 text-productPrice rsfontWeight-500 rsmarginTop-h-2">
             {information}

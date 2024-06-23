@@ -3,7 +3,13 @@
     "info": "",
     "success": "Success !",
     "warning": "Warning !",
-    "error": "Error !"
+    "error": "Error !",
+    "status": {
+      "placed": "Placed",
+      "confirmed": "Confirmed",
+      "shipped": "Shipped",
+      "delivered": "Delivered"
+    }
   },
   "tabs": {
     "home": "Home",
@@ -22,7 +28,7 @@
     "tellfriend": "Tell a Friend",
     "signout": "Sign Out"
   },
-  "welcome":{
+  "welcome": {
     "title": "Eyewear",
     "subtitle": "Glasses for everyone",
     "next": "Next",
@@ -41,12 +47,12 @@
   "login": {
     "title": "Sign In",
     "label": {
-       "email": "Email Address",
-       "password": "Password"
+      "email": "Email Address",
+      "password": "Password"
     },
     "place": {
-       "email": "Email Address",
-       "password": "Password"
+      "email": "Email Address",
+      "password": "Password"
     },
     "button": {
       "signin": "Sign In",
@@ -64,21 +70,21 @@
       "password_max": "Password cannot be exceeds 50 characters",
       "password_match": "Must contain minimum 8 characters, at least one upper case letter, one number and one special character"
     },
-    "res":{
+    "res": {
       "success": "Logged In Successfully !"
     }
   },
   "signup": {
     "title": "Sign In",
-    "label": { 
-       "name": "Fullname",
-       "email": "Email Address",
-       "password": "Password"
+    "label": {
+      "name": "Fullname",
+      "email": "Email Address",
+      "password": "Password"
     },
     "place": {
-       "name": "Fullname",
-       "email": "Email Address",
-       "password": "Password"
+      "name": "Fullname",
+      "email": "Email Address",
+      "password": "Password"
     },
     "button": {
       "signup": "Sign Up",
@@ -97,17 +103,17 @@
       "name_max": "Name cannot exceeds 40 chars",
       "name_match": "Only chars and space are allowed"
     },
-    "res":{
+    "res": {
       "success": "Successfully Sign up. Please verify your account"
     }
   },
   "forgot": {
     "title": "Forgot Password",
     "label": {
-       "email": "Enter Email Id (Email Id To Receive New Password)"
+      "email": "Enter Email Id (Email Id To Receive New Password)"
     },
     "place": {
-       "email": "Email Address"
+      "email": "Email Address"
     },
     "button": {
       "submit": "Submit",
@@ -118,8 +124,125 @@
       "email_invalid": "Invalid email",
       "email_max": "Email Id cannot be exceeds 50 characters"
     },
-    "res":{
+    "res": {
       "success": "Password Sent On Email Successfully !"
+    }
+  },
+  "signupverify": {
+    "title": "Account Verification",
+    "label": {
+      "otp": "Enter OTP (OTP Is Already Sent Your Email)"
+    },
+    "button": {
+      "submit": "Submit",
+      "resend": "Resend OTP",
+      "resend_enable": "Resend OTP Enable",
+      "login": "Already Verified? Login"
+    },
+    "error": {
+      "otp": "Only Numbers are allowed",
+      "otp_min": "OTP should be 6 digits",
+      "otp_max": "OTP cannot be exceeds 6 digits"
+    },
+    "res": {
+      "success": "Email verified successfully !!"
+    }
+  },
+  "home": {
+    "place": {
+      "search": "Search ..."
+    }
+  },
+  "notification": {
+    "title": "Notifications",
+    "status": {
+      "Order Placed": "Order Placed",
+      "Order Confirmed": "Order Confirmed",
+      "Order Shipped": "Order Shipped",
+      "Order Delivered": "Order Delivered"
+    },
+    "date": {
+      "second": "second",
+      "seconds": "seconds",
+      "minute": "minute",
+      "minutes": "minutes",
+      "day": "day",
+      "days": "days",
+      "week": "week",
+      "weeks": "weeks",
+      "month": "month",
+      "months": "months",
+      "year": "year",
+      "years": "years",
+      "ago": "ago"
+    },
+    "description": "Your order {{orderId}} is now "
+  },
+  "search": {
+    "place": {
+      "search": "Search ..."
+    },
+    "button": {
+      "price": "Price",
+      "categories": "Categories",
+      "reviews": "Reviews",
+      "clear_all": "Clear All",
+      "apply": "Apply",
+      "close": "Close"
+    },
+    "price": {
+      "title": "Price",
+      "all": "All",
+      "low_to_high": "Low To High",
+      "high_to_low": "High To Low"
+    },
+    "categories": "Categories",
+    "reviews": "Customer Reviews"
+  },
+  "cart": {
+    "label": {
+      "total": "Total"
+    },
+    "button": {
+      "checkout": "Checkout",
+      "shop_now": "Shop Now"
+    },
+    "res": {
+      "removed": "Product Remove From Cart Successfully !",
+      "updated": "Cart Updated Successfully !",
+      "deleted": "Are you sure delete this product from cart ?"
+    }
+  },
+  "order": {
+    "title": "Orders",
+    "label": {
+      "order_id": "Order ID"
+    },
+    "tab": {
+      "active": "Active Orders",
+      "past": "Past Orders"
+    },
+    "res": {
+      "error": "Sorry unable to genrate pdf"
+    }
+  },
+  "product_detail": {
+    "review": "review",
+    "reviews": "reviews",
+    "size": "Size",
+    "sizes": "S M L XL",
+    "colors": "Colours",
+    "availability": "Availability",
+    "in_stock": "In Stock",
+    "out_of_stock": "Out Of Stock",
+    "information_tab": "Information",
+    "reviews_tab": "Reviews",
+    "product_information": "Product Information",
+    "related_products": "Related Products",
+    "go_to_cart": "Go To Cart",
+    "add_to_cart": "Add To Cart",
+    "res": {
+      "success": "Item added cart successfully !!"
     }
   }
 }

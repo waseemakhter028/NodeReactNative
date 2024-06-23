@@ -3,6 +3,12 @@ import moment from 'moment';
 
 import Colors from '../constants/Colors';
 import OrderStatus from '../constants/OrderStatus';
+import i18next from '../i18n/i18n.config';
+
+export const translate = (key: string) => {
+  const t = i18next.t.bind(i18next);
+  return t(key);
+};
 
 export const saveToAsyncStorage = async (data: any) => {
   try {
@@ -40,19 +46,19 @@ export const orderStatusByNumber = (status: string) => {
   let orderStatus = '';
   switch (Number(status)) {
     case 1:
-      orderStatus = 'Placed';
+      orderStatus = translate('common.status.placed');
       break;
     case 2:
-      orderStatus = 'Confirmed';
+      orderStatus = translate('common.status.confirmed');
       break;
     case 3:
-      orderStatus = 'Shipped';
+      orderStatus = translate('common.status.shipped');
       break;
     case 4:
-      orderStatus = 'Delivered';
+      orderStatus = translate('common.status.delivered');
       break;
     default:
-      orderStatus = 'Placed';
+      orderStatus = translate('common.status.placed');
       break;
   }
   return orderStatus;
@@ -105,13 +111,33 @@ export const statusButtonColor = (status: string) => {
 const getHrWeekMonYr = (d: number, w: number, m: number, y: number) => {
   let format = '';
   if (d > 0 && w === 0) {
-    format = d + ' ' + (d > 1 ? 'days' : 'day');
+    format =
+      d +
+      ' ' +
+      (d > 1
+        ? translate('notification.date.days')
+        : translate('notification.date.day'));
   } else if (w > 0 && m === 0) {
-    format = w + ' ' + (w > 1 ? 'weeks' : 'week');
+    format =
+      w +
+      ' ' +
+      (w > 1
+        ? translate('notification.date.weeks')
+        : translate('notification.date.week'));
   } else if (m > 0 && y === 0) {
-    format = m + ' ' + (m > 1 ? 'months' : 'month');
+    format =
+      m +
+      ' ' +
+      (m > 1
+        ? translate('notification.date.months')
+        : translate('notification.date.month'));
   } else if (y > 0) {
-    format = y + ' ' + (y > 1 ? 'years' : 'year');
+    format =
+      y +
+      ' ' +
+      (y > 1
+        ? translate('notification.date.years')
+        : translate('notification.date.year'));
   }
   return format;
 };
@@ -130,16 +156,31 @@ export const showNotifiDate = (getDate: Date) => {
   const y = curDate.diff(notifiDate, 'years');
 
   if (s > 0 && i === 0) {
-    format = s + ' ' + (s > 1 ? 'seconds' : 'second');
+    format =
+      s +
+      ' ' +
+      (s > 1
+        ? translate('notification.date.seconds')
+        : translate('notification.date.second'));
   } else if (i > 0 && h === 0) {
-    format = i + ' ' + (i > 1 ? 'minutes' : 'minute');
+    format =
+      i +
+      ' ' +
+      (i > 1
+        ? translate('notification.date.minutes')
+        : translate('notification.date.minute'));
   } else if (h > 0 && d === 0) {
-    format = h + ' ' + (h > 1 ? 'hours' : 'hour');
+    format =
+      h +
+      ' ' +
+      (h > 1
+        ? translate('notification.date.hours')
+        : translate('notification.date.hour'));
   } else {
     format += getHrWeekMonYr(d, w, m, y);
   }
 
-  format += ' ago';
+  format += ` ${translate('notification.date.ago')}`;
 
   return format;
 };

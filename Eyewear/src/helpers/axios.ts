@@ -27,7 +27,12 @@ customAxios.interceptors.request.use(
         ? JSON.parse(await getFromAsyncStorage('token'))
         : '',
     );
-    config.headers.set('Accept-Language', 'en');
+    config.headers.set(
+      'Accept-Language',
+      (await getFromAsyncStorage('language'))
+        ? await getFromAsyncStorage('language')
+        : 'en',
+    );
     config.headers.set('timezone', moment.tz.guess(true));
     return config;
   },

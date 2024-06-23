@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {ActivityIndicator, FlatList, StyleSheet} from 'react-native';
 
+import {useTranslation} from 'react-i18next';
 import RNFS from 'react-native-fs';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import LinearGradient from 'react-native-linear-gradient';
@@ -37,6 +38,7 @@ import {
 } from '../../types';
 
 const OrderCard = ({item, Toast}: OrderCardProps) => {
+  const {t} = useTranslation();
   const {axiosCall} = useAxios();
   const [loadingId, setLoadingId] = useState<string>('');
 
@@ -48,7 +50,7 @@ const OrderCard = ({item, Toast}: OrderCardProps) => {
       );
       const res = data;
       if (error) {
-        Toast('warning', 'Warning !', error.message);
+        Toast('warning', t('common.warning'), error.message);
       } else if (!error) {
         if (res.success === true) {
           const html = genterateInvoiceHtml(res.data);
@@ -69,21 +71,21 @@ const OrderCard = ({item, Toast}: OrderCardProps) => {
               .then(() => {
                 Toast(
                   'success',
-                  'Success !',
+                  t('common.success'),
                   `PDF saved to ${file.filePath}`,
                   4000,
                 );
               })
               .catch(() => {
-                Toast('danger', 'Error !', 'Sorry unable to genrate pdf');
+                Toast('danger', t('common.error'), t('order.res.error'));
               });
           }
         } else {
-          Toast('danger', 'Error !', res.message);
+          Toast('danger', t('common.error'), res.message);
         }
       }
     } catch (error: any) {
-      Toast('danger', 'Error !', error.message);
+      Toast('danger', t('common.error'), error.message);
     } finally {
       setLoadingId('');
     }
@@ -104,7 +106,7 @@ const OrderCard = ({item, Toast}: OrderCardProps) => {
         <View>
           <View className="flex-row rsgap-w-8 items-center">
             <Text className="rsfontSize-f-1.6 text-productPrice">
-              Order ID: {item.order_id}
+              {t('order.label.order_id')}: {item.order_id}
             </Text>
             <Pressable
               className={`rsbackgroundColor-${statusButtonColor(
@@ -163,6 +165,7 @@ const OrderCard = ({item, Toast}: OrderCardProps) => {
 };
 
 const Order = () => {
+  const {t} = useTranslation();
   const {setCurrentRoute} = useAppContext();
   const {Toast} = useContext();
   const [loading, setLoading] = useState<boolean>(true);
@@ -187,7 +190,7 @@ const Order = () => {
       );
       const res = data;
       if (error) {
-        Toast('warning', 'Warning !', error.message);
+        Toast('warning', t('common.warning'), error.message);
       } else if (!error) {
         if (res.success === true) {
           const peg: PaginationProps = {
@@ -220,7 +223,7 @@ const Order = () => {
               break;
           }
         } else {
-          Toast('danger', 'Error !', res.message);
+          Toast('danger', t('common.error'), res.message);
         }
       }
       setLoading(false);
@@ -243,7 +246,9 @@ const Order = () => {
         <Header isBack={true} />
       </View>
       <View className="rsmarginTop-h-2.5">
-        <Text className="rsfontSize-f-3 text-productTitle">Orders</Text>
+        <Text className="rsfontSize-f-3 text-productTitle">
+          {t('order.title')}
+        </Text>
         <View className="bg-cprimaryDark rsmarginVertical-h-2 rsheight-h-7 rswidth-w-90 rsborderRadius-w-3 items-center justify-center flex-row">
           <TouchableOpacity
             className={`${
@@ -257,7 +262,7 @@ const Order = () => {
               className={`rsfontSize-f-2 ${
                 activeTab ? 'text-cprimaryDark' : 'text-white'
               } text-center rsfontWeight-700`}>
-              Active Orders
+              {t('order.tab.active')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -272,7 +277,7 @@ const Order = () => {
               className={`rsfontSize-f-2  ${
                 !activeTab ? 'text-cprimaryDark' : 'text-white'
               } text-center rsfontWeight-700`}>
-              Past Orders
+              {t('order.tab.past')}
             </Text>
           </TouchableOpacity>
         </View>

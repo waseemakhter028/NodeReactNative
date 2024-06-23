@@ -544,8 +544,8 @@ const placeOrder = async (req, res) => {
 
     helper.sendNotification(
       user_id,
-      req.t("order_placed"),
-      `${req.t("your_order")} ${order.order_id} ${req.t("is_now")} ${status}`
+      "Order Placed",
+      `Your order ${order.order_id} is now ${status}`
     );
 
     return helper.sendSuccess({}, res, req.t("order_save"), 200);
