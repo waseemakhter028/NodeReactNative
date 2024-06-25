@@ -8,6 +8,7 @@ import LoginScreen from '../../screens/auth/Login';
 import SignUpScreen from '../../screens/auth/SignUp';
 import SignUpVerifyScreen from '../../screens/auth/SignUpVerify';
 import Checkout from '../../screens/Checkout';
+import DisplayOrderPdf from '../../screens/DisplayOrderPdf';
 import ProductDetailScreen from '../../screens/ProductDetails';
 import WelcomeScreen from '../../screens/Welcome';
 import Drawer from '../drawer';
@@ -27,6 +28,7 @@ const AppStack = () => {
           <Stack.Screen name="Dashboard" component={Drawer} />
           <Stack.Screen name="ProductDetails" component={ProductDetailScreen} />
           {isCheckout && <Stack.Screen name="Checkout" component={Checkout} />}
+          <Stack.Screen name="DisplayOrderPdf" component={DisplayOrderPdf} />
         </React.Fragment>
       ) : (
         <React.Fragment>

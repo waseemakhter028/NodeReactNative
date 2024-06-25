@@ -1,8 +1,8 @@
 const genterateInvoiceHtml = (data: any) => {
   const {products, payment_method, orderInfo, order_time, coupon} = data;
-  let html = `<!doctype html>
+  let html = '';
+  html = `<!doctype html>
  <html lang="en">
- 
  <head>
      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
      <meta name="viewport" content="width=display-width, initial-scale=1.0, maximum-scale=1.0," />
@@ -83,21 +83,19 @@ const genterateInvoiceHtml = (data: any) => {
   } // for loop close
   subtotal = Number(subtotal.toFixed(2));
 
-  html += `<tr style="font-size: 25px;">
-                      <td
-                          style="padding: 20px 8px; vertical-align: middle; color:#828282; font-family:arial, 'helvetica neue', helvetica, sans-serif;border-top:1px solid #E0E0E0">
+  html += `<tr style="font-size: 25px; id="uni">
+                      <td style="padding: 20px 8px; vertical-align: middle; color:#828282; font-family:arial, 'helvetica neue', helvetica, sans-serif;border-top:1px solid #E0E0E0" id="subtotal">
                           Subtotal
                       </td>
-                      <td
-                          style="padding: 20px 8px; vertical-align: middle; text-align: right; color:#828282;border-top:1px solid #E0E0E0">
+                      <td style="padding: 20px 8px; vertical-align: middle; text-align: right; color:#828282;border-top:1px solid #E0E0E0">
                           &nbsp;
                       </td>
-                      <td
-                          style="padding: 20px 8px; color:#828282; vertical-align: middle; text-align: right; font-family:arial, 'helvetica neue', helvetica, sans-serif;border-top:1px solid #E0E0E0">
+                      <td style="padding: 20px 8px; color:#828282; vertical-align: middle; text-align: right; font-family:arial, 'helvetica neue', helvetica, sans-serif;border-top:1px solid #E0E0E0">
                           ${subtotal.toFixed(2)}
                       </td>
-                  </tr>
-                  <tr style="font-size: 25px;">
+                  </tr>`;
+
+  html += `<tr style="font-size: 25px;">
                       <td
                           style="padding: 20px 8px; vertical-align: middle; color:#828282; font-family:arial, 'helvetica neue', helvetica, sans-serif;border-top:1px solid #E0E0E0">
                           Delivery Charge
@@ -110,7 +108,6 @@ const genterateInvoiceHtml = (data: any) => {
                           style="padding: 20px 8px; color:#828282; vertical-align: middle; text-align: right; font-family:arial, 'helvetica neue', helvetica, sans-serif; border-top:1px solid #E0E0E0">
                           ${orderInfo.delivery_charge.toFixed(2)} </td>
                   </tr>`;
-
   let couponAmount: number = 0;
 
   if (coupon != null) {
@@ -142,7 +139,14 @@ const genterateInvoiceHtml = (data: any) => {
   total = total > 0 ? total.toFixed(2).toString() : 0.0;
 
   html += `</tbody>
-              <tfoot>
+              <tfoot style="display: table-row-group;">
+                    <tr>
+                        <td style="padding-top: ${
+                          products.length > 3 ? '20px' : '0px'
+                        }; vertical-align: middle; text-align: right;">
+                          &nbsp;
+                        </td>
+                    </tr>
                   <tr style="font-size: 28px;">
                       <td
                           style="padding: 20px 8px; vertical-align: middle; font-family:arial, 'helvetica neue', helvetica, sans-serif; border-top:1px solid #333333; border-bottom: 1px solid #333333;">

@@ -36,7 +36,7 @@ app.use(
 app.use(
   compression({
     level: 6,
-    threshold: 10 * 100,
+    threshold: 0, // for 10 MB 10 * 1000
     filter: (req, res) => {
       if (req.headers["x-no-compression"]) {
         return false;

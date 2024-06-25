@@ -28,8 +28,9 @@ const schema = {
     social_id: joi.string().trim().required().max(300),
     email: joi.string().trim().allow(null).email().max(60),
     name: joi.string().allow(null).max(40),
-    device_token: joi.string().trim().required().max(300),
+    device_token: joi.string().trim().optional().max(300),
     login_type: joi.number().max(1),
+    image: joi.string().trim().required().max(5000),
   }),
 
   forgotPasswordData: joi.object({

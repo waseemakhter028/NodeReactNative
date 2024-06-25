@@ -48,10 +48,14 @@ const CustomDrawer = (props: any) => {
   };
 
   const getImage = () => {
-    if (user && user?.image !== null) {
-      return {uri: process.env.USER_IMAGE_URL + '/' + user?.image};
+    if (user.login_type !== 0) {
+      return {uri: user?.image};
     } else {
-      return require('../../../assets/images/avatar.jpg');
+      if (user && user?.image !== null) {
+        return {uri: process.env.USER_IMAGE_URL + '/' + user?.image};
+      } else {
+        return require('../../../assets/images/avatar.jpg');
+      }
     }
   };
 

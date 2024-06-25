@@ -166,6 +166,8 @@
       "seconds": "seconds",
       "minute": "minute",
       "minutes": "minutes",
+      "hour": "hour",
+      "hours": "hours",
       "day": "day",
       "days": "days",
       "week": "week",
@@ -223,7 +225,8 @@
       "past": "Past Orders"
     },
     "res": {
-      "error": "Sorry unable to genrate pdf"
+      "error": "Sorry unable to genrate pdf",
+      "pdf": "PDF saved to download folder"
     }
   },
   "product_detail": {

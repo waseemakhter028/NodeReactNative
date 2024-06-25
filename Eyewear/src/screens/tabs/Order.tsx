@@ -1,9 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 
+import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
-import RNFS from 'react-native-fs';
-import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -19,7 +18,6 @@ import {
   rand,
   statusButtonColor,
 } from '../../helpers/common';
-import genterateInvoiceHtml from '../../helpers/invoicesHtml';
 import {fp, hp, wp} from '../../helpers/responsive';
 import useAxios from '../../hooks/useAxios';
 import {
@@ -31,65 +29,17 @@ import {
   View,
 } from '../../storybook';
 import {
+  NavigationProps,
   OrderCardProps,
   OrderPaginationProps,
   OrderProps,
   PaginationProps,
 } from '../../types';
 
-const OrderCard = ({item, Toast}: OrderCardProps) => {
+const OrderCard = ({item}: OrderCardProps) => {
   const {t} = useTranslation();
-  const {axiosCall} = useAxios();
-  const [loadingId, setLoadingId] = useState<string>('');
+  const navigation: NavigationProps = useNavigation();
 
-  const generatePDF = async () => {
-    setLoadingId(item.id);
-    try {
-      const {data, error} = await axiosCall(
-        'orderinvoiceinfo?order_id=' + item.id,
-      );
-      const res = data;
-      if (error) {
-        Toast('warning', t('common.warning'), error.message);
-      } else if (!error) {
-        if (res.success === true) {
-          const html = genterateInvoiceHtml(res.data);
-
-          const fileName =
-            item.order_id + '_' + Math.floor(Math.random() * 100000 + 999999);
-          const options = {
-            html,
-            fileName: fileName,
-            directory: 'Downloads',
-            base64: true,
-          };
-          const file = await RNHTMLtoPDF.convert(options);
-
-          if (file.filePath !== undefined && file.base64) {
-            const filePath = RNFS.DownloadDirectoryPath + `/${fileName}.pdf`;
-            RNFS.writeFile(filePath, file.base64, 'base64')
-              .then(() => {
-                Toast(
-                  'success',
-                  t('common.success'),
-                  `PDF saved to ${file.filePath}`,
-                  4000,
-                );
-              })
-              .catch(() => {
-                Toast('danger', t('common.error'), t('order.res.error'));
-              });
-          }
-        } else {
-          Toast('danger', t('common.error'), res.message);
-        }
-      }
-    } catch (error: any) {
-      Toast('danger', t('common.error'), error.message);
-    } finally {
-      setLoadingId('');
-    }
-  };
   return (
     <View className="rsmarginTop-h-2">
       <View className="flex-row rsgap-w-5">
@@ -135,20 +85,13 @@ const OrderCard = ({item, Toast}: OrderCardProps) => {
                 />
                 <Pressable
                   className="rsheight-w-6 rswidth-w-6 rsborderRadius-w-3 bg-white justify-center items-center"
-                  onPress={generatePDF}>
+                  onPress={() => navigation.push('DisplayOrderPdf', {item})}>
                   <Text className="rsfontSize-f-1.6 rsfontWeight-500 text-cprimaryDark">
-                    {loadingId === item.id ? (
-                      <ActivityIndicator
-                        size="small"
-                        color={Colors.cprimaryDark}
-                      />
-                    ) : (
-                      <Feather
-                        name="printer"
-                        size={fp(1.6)}
-                        color={Colors.cprimaryDark}
-                      />
-                    )}
+                    <Feather
+                      name="printer"
+                      size={fp(1.6)}
+                      color={Colors.cprimaryDark}
+                    />
                   </Text>
                 </Pressable>
               </View>
@@ -291,7 +234,7 @@ const Order = () => {
           ListEmptyComponent={
             <React.Fragment>{loading ? <Loader /> : <NoData />}</React.Fragment>
           }
-          renderItem={({item}) => <OrderCard item={item} Toast={Toast} />}
+          renderItem={({item}) => <OrderCard item={item} />}
           keyExtractor={() => rand().toString()}
           showsVerticalScrollIndicator={false}
           onEndReached={() => {

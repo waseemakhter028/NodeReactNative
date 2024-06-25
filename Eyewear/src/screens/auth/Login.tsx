@@ -36,6 +36,8 @@ const Login = () => {
   useEffect(() => {
     GoogleSignin.configure({
       webClientId: process.env.GOOGLE_CLIENT_ID,
+      forceCodeForRefreshToken: true,
+      offlineAccess: true,
     });
   }, []);
   const formik = useFormik({
@@ -90,29 +92,36 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      await GoogleSignin.hasPlayServices();
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
       const googleRes = await GoogleSignin.signIn();
-      console.log(googleRes);
-      // const info = await axios.post('/login', );
-      // const res = info.data;
-      // if (res.success === true) {
-      //   await saveToAsyncStorage({
-      //     user: JSON.stringify(res.data),
-      //     token: JSON.stringify(res.data.api_token),
-      //   });
-      //   resetForm();
-      //   setIsLogin(true);
-      //   Toast('success', 'Success !', ' Logged In Successfully', 1000);
-      //   setTimeout(() => navigation.push('Home'), 1001);
-      // } else if (res.status === 201 && res.success === false) {
-      //   setSignUpVerify({
-      //     verify: true,
-      //     email: values.email,
-      //   });
-      //   navigation.push('SignUpVerify');
-      // } else {
-      //   Toast('danger', 'Error !', res.message);
-      // }
+      try {
+        const values = {
+          social_id: googleRes.user.id,
+          name: googleRes.user.name,
+          email: googleRes.user.email,
+          image: googleRes.user.photo,
+          login_type: 1,
+        };
+        const info = await axios.post('/sociallogin', JSON.stringify(values));
+        const res = info.data;
+        if (res.success === true) {
+          await saveToAsyncStorage({
+            user: JSON.stringify(res.data),
+            token: JSON.stringify(res.data.api_token),
+            cartCount: JSON.stringify(res.data.cartCount),
+          });
+          setIsLogin(true);
+          setCartCount(res.data.cartCount);
+          Toast('success', t('common.success'), t('login.res.success'), 1000);
+          setTimeout(() => navigation.push('Home'), 1001);
+        } else {
+          Toast('danger', t('common.error'), res.message);
+        }
+      } catch (e: any) {
+        Toast('warning', t('common.warning'), e.message);
+      } finally {
+        setLoading(false);
+      }
     } catch (e: any) {
       Toast('warning', 'Warning !', e.message);
     }
@@ -238,7 +247,7 @@ const Login = () => {
                 onPress={() => handleGoogleLogin()}>
                 <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
                   <FontAwesome name="google-plus" size={fp(2.5)} />{' '}
-                  {t('login.button.facebook')}
+                  {t('login.button.google')}
                 </Text>
               </TouchableOpacity>
             </View>

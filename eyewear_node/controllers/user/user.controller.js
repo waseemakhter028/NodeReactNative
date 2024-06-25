@@ -168,7 +168,7 @@ const login = async (req, res) => {
 };
 
 const socialLogin = async (req, res) => {
-  const { email, social_id, name, device_token, login_type } = req.body;
+  const { email, social_id, name, device_token, login_type, image } = req.body;
 
   let user = await User.findOne({ social_id: social_id });
 
@@ -180,6 +180,7 @@ const socialLogin = async (req, res) => {
       social_id: social_id,
       email_verified_status: true,
       email_verified_at: moment().toISOString(),
+      image: image,
     });
   }
 
@@ -187,7 +188,7 @@ const socialLogin = async (req, res) => {
 
   user = await User.findOneAndUpdate(
     { _id: user._id },
-    { $set: { api_token: token, device_token: device_token } },
+    { $set: { api_token: token, device_token: device_token, image: image } },
     { new: true }
   );
 

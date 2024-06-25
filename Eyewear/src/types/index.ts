@@ -95,6 +95,7 @@ export interface ItemProps {
   qty: number;
   reviewCount?: number;
   avgRating?: number;
+  order_id?: string;
 }
 
 export interface ExtraProps {
@@ -355,9 +356,16 @@ export interface OrderPaginationProps {
   lastPage: number;
 }
 
-export interface OrderCardProps extends Toast {
+export interface OrderCardProps {
   item: OrderProps;
 }
+
+export interface DisplayPdfProps {
+  fileName: string;
+  base64: string;
+  filePath: string;
+}
+
 /*** tabs Pages Interfaces End ***/
 
 /*** Dashboard Pages Interfaces Start ***/
