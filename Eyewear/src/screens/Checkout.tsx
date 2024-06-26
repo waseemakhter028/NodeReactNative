@@ -159,8 +159,6 @@ const Checkout = () => {
     const options: any = {
       description: description,
       image: 'https://node-eyewear.vercel.app/products/applogo.png',
-      callback_url:
-        'https://node-eyewear.vercel.app/api/v1/razorpaycallback?email=userone%40yopmail.com',
       currency: 'INR',
       key: process.env.RAZORPAY_API_KEY_ID ?? '',
       amount: grandTotal * 100,
