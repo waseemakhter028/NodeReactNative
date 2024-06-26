@@ -188,7 +188,14 @@ const socialLogin = async (req, res) => {
 
   user = await User.findOneAndUpdate(
     { _id: user._id },
-    { $set: { api_token: token, device_token: device_token, image: image } },
+    {
+      $set: {
+        api_token: token,
+        device_token: device_token,
+        image: image,
+        name: name,
+      },
+    },
     { new: true }
   );
 

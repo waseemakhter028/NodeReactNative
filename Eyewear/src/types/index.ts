@@ -557,4 +557,8 @@ export interface UserLoginProps {
   image: null | string;
   cartCount: number;
 }
+
+export interface SaveInternetProps {
+  connection: boolean;
+}
 /*** Common Pages Interfaces End ***/

@@ -27,6 +27,8 @@ interface MyContextType {
   setIsCheckout: (isCheckout: boolean) => void;
   currentRoute: string;
   setCurrentRoute: (routeName: string) => void;
+  isConnected: boolean;
+  setIsConnected: (connection: boolean) => void;
 }
 
 // Create the context with a default value (can be null initially)
@@ -47,6 +49,7 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({
   const [cartCount, setCartCount] = useState<number>(0);
   const [isCheckout, setIsCheckout] = useState<boolean>(false);
   const [currentRoute, setCurrentRoute] = useState<string>('');
+  const [isConnected, setIsConnected] = useState<boolean>(false);
 
   const checkAlreadyLogin = async () => {
     const token = await getFromAsyncStorage('token');
@@ -92,6 +95,8 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({
       setIsCheckout,
       currentRoute,
       setCurrentRoute,
+      isConnected,
+      setIsConnected,
     }),
     [
       isOpenDrawer,
@@ -108,6 +113,8 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({
       setIsCheckout,
       currentRoute,
       setCurrentRoute,
+      isConnected,
+      setIsConnected,
     ],
   );
 
@@ -119,7 +126,7 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({
 export const useContext = (): any => {
   const context = ReactUseContext(AppContext);
   if (!context) {
-    throw new Error('useContext must be used within a CartContextProvider');
+    throw new Error('useContext must be used within a AppContextProvider');
   }
   return context;
 };
