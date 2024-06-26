@@ -198,9 +198,10 @@ const Checkout = () => {
         }
         setOrderPlaceLoader(false);
       })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .catch((error: any) => {
         setOrderPlaceLoader(false);
-        Toast('danger', 'Error !', error.description);
+        Toast('danger', 'Error !', 'Payment canceled please try again');
       });
   };
 
