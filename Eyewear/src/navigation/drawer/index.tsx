@@ -49,6 +49,7 @@ const AppDrawer = () => {
         options={{
           title: t('drawer.profile'),
           drawerIcon: ProfileDrawer,
+          unmountOnBlur: true,
         }}
       />
       <Drawer.Screen
@@ -57,6 +58,7 @@ const AppDrawer = () => {
         options={{
           title: t('drawer.home'),
           drawerIcon: HomeDrawer,
+          unmountOnBlur: true,
         }}
       />
       <Drawer.Screen
@@ -65,6 +67,7 @@ const AppDrawer = () => {
         options={{
           title: t('drawer.address'),
           drawerIcon: AddressDrawer,
+          unmountOnBlur: true,
         }}
       />
       <Drawer.Screen
@@ -73,6 +76,7 @@ const AppDrawer = () => {
         options={{
           title: t('drawer.coupon'),
           drawerIcon: CouponDrawer,
+          unmountOnBlur: true,
         }}
       />
       <Drawer.Screen
@@ -81,6 +85,7 @@ const AppDrawer = () => {
         options={{
           title: t('drawer.aboutus'),
           drawerIcon: AboutUsDrawer,
+          unmountOnBlur: true,
         }}
       />
       <Drawer.Screen
@@ -89,6 +94,7 @@ const AppDrawer = () => {
         options={{
           title: t('drawer.contactus'),
           drawerIcon: ContactUsDrawer,
+          unmountOnBlur: true,
         }}
       />
       <Drawer.Screen
@@ -97,6 +103,7 @@ const AppDrawer = () => {
         options={{
           title: t('drawer.language'),
           drawerIcon: LanguageDrawer,
+          unmountOnBlur: true,
         }}
       />
     </Drawer.Navigator>

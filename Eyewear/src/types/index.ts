@@ -545,4 +545,16 @@ export interface ProfileChangePasswordProps {
   new_password: string;
   confirm_password: string;
 }
+
+export interface UserLoginProps {
+  id: string;
+  name: string;
+  email: string;
+  social_id: string;
+  login_type: number;
+  api_token: string;
+  role: number;
+  image: null | string;
+  cartCount: number;
+}
 /*** Common Pages Interfaces End ***/

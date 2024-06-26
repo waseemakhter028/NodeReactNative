@@ -29,9 +29,10 @@ import {loginSchema} from '../../validation';
 const Login = () => {
   const {Toast} = useContext();
   const {t} = useTranslation();
-  const {setIsLogin, setSignUpVerify, setCartCount} = useAppContext();
+  const {setIsLogin, setSignUpVerify, setCartCount, setUser} = useAppContext();
   const [isHidePass, setIsHidePass] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
+  const [googleLoading, setGoogleLoading] = useState<boolean>(false);
   const navigation: NavigationProps = useNavigation();
   useEffect(() => {
     GoogleSignin.configure({
@@ -72,6 +73,7 @@ const Login = () => {
         resetForm();
         setIsLogin(true);
         setCartCount(res.data.cartCount);
+        setUser(res.data);
         Toast('success', t('common.success'), t('login.res.success'), 1000);
         setTimeout(() => navigation.push('Home'), 1001);
       } else if (res.status === 201 && res.success === false) {
@@ -91,18 +93,19 @@ const Login = () => {
   };
 
   const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
     try {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
       const googleRes = await GoogleSignin.signIn();
       try {
-        const values = {
+        const data = {
           social_id: googleRes.user.id,
           name: googleRes.user.name,
           email: googleRes.user.email,
           image: googleRes.user.photo,
           login_type: 1,
         };
-        const info = await axios.post('/sociallogin', JSON.stringify(values));
+        const info = await axios.post('/sociallogin', JSON.stringify(data));
         const res = info.data;
         if (res.success === true) {
           await saveToAsyncStorage({
@@ -112,6 +115,7 @@ const Login = () => {
           });
           setIsLogin(true);
           setCartCount(res.data.cartCount);
+          setUser(res.data);
           Toast('success', t('common.success'), t('login.res.success'), 1000);
           setTimeout(() => navigation.push('Home'), 1001);
         } else {
@@ -120,10 +124,12 @@ const Login = () => {
       } catch (e: any) {
         Toast('warning', t('common.warning'), e.message);
       } finally {
-        setLoading(false);
+        setGoogleLoading(false);
       }
     } catch (e: any) {
       Toast('warning', 'Warning !', e.message);
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
@@ -231,25 +237,17 @@ const Login = () => {
                 </Text>
               </ButtonWithLoader>
             </View>
-            {/* facebook login  button */}
-            <View className="rspaddingTop-h-2">
-              <TouchableOpacity className="bg-cblue rounded-full rspadding-w-3.5">
-                <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
-                  <FontAwesome name="facebook" size={fp(2.5)} />{' '}
-                  {t('login.button.facebook')}
-                </Text>
-              </TouchableOpacity>
-            </View>
             {/* google login  button */}
             <View className="rspaddingTop-h-2">
-              <TouchableOpacity
+              <ButtonWithLoader
+                loading={googleLoading}
                 className="bg-cred rounded-full rspadding-w-3.5"
                 onPress={() => handleGoogleLogin()}>
                 <Text className="text-center rsfontSize-f-2.5 font-bold text-white">
                   <FontAwesome name="google-plus" size={fp(2.5)} />{' '}
                   {t('login.button.google')}
                 </Text>
-              </TouchableOpacity>
+              </ButtonWithLoader>
             </View>
             {/* links  */}
             <View className="rspaddingTop-h-3 flex-row justify-between">

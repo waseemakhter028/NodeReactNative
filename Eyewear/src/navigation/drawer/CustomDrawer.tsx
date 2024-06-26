@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Share} from 'react-native';
 
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -10,6 +11,7 @@ import {useTranslation} from 'react-i18next';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import Colors from '../../constants/Colors';
+import Roles from '../../constants/Social';
 import {useContext} from '../../context/AppContext';
 import {useContext as useToastContext} from '../../context/ToastContext';
 import {removeFromAsyncStorage} from '../../helpers/common';
@@ -28,6 +30,15 @@ const CustomDrawer = (props: any) => {
   const {user, setIsLogin} = useContext();
   const {Toast} = useToastContext();
   const navigation: NavigationProps = useNavigation();
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: process.env.GOOGLE_CLIENT_ID,
+      forceCodeForRefreshToken: true,
+      offlineAccess: true,
+    });
+  }, []);
+
   const onShare = async () => {
     try {
       await Share.share({
@@ -40,6 +51,15 @@ const CustomDrawer = (props: any) => {
   };
   const handleLogout = async () => {
     await removeFromAsyncStorage(['user', 'token', 'cartCount']);
+    if (user.login_type === 1) {
+      try {
+        // Revoke access token and sign out from Google Sign-in
+        await GoogleSignin.revokeAccess();
+        await GoogleSignin.signOut();
+      } catch (err: any) {
+        Toast('danger', t('common.error'), err.message);
+      }
+    }
     setIsLogin(false);
     Toast('info', 'Success !', ' Logged Out Successfully', 2000);
     setTimeout(() => {
@@ -48,14 +68,18 @@ const CustomDrawer = (props: any) => {
   };
 
   const getImage = () => {
-    if (user.login_type !== 0) {
+    if (Roles.includes(user.login_type)) {
+      // if user login with social login
       return {uri: user?.image};
+    } else if (
+      !Roles.includes(user.login_type) &&
+      user &&
+      user?.image !== null
+    ) {
+      // normal user login
+      return {uri: process.env.USER_IMAGE_URL + '/' + user?.image};
     } else {
-      if (user && user?.image !== null) {
-        return {uri: process.env.USER_IMAGE_URL + '/' + user?.image};
-      } else {
-        return require('../../../assets/images/avatar.jpg');
-      }
+      return require('../../../assets/images/avatar.jpg');
     }
   };
 
