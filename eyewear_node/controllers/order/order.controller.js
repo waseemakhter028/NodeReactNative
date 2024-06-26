@@ -8,6 +8,7 @@ const OrderCoupon = require("../../models/orderCoupon");
 const Transaction = require("../../models/transaction");
 const ProductOrder = require("../../models/productOrder");
 const Product = require("../../models/product");
+const Subscriber = require("../../models/subscriber");
 const moment = require("moment");
 const striptags = require("striptags");
 const Razorpay = require("razorpay");
@@ -554,6 +555,20 @@ const placeOrder = async (req, res) => {
   }
 };
 
+const razorPayCallback = async (req, res) => {
+  const { email } = req.query;
+  try {
+    const save = await Subscriber.create({ email });
+    /* istanbul ignore next */
+    if (!save)
+      return helper.sendException(res, req.t("something_is_wrong"), 200);
+
+    return helper.sendSuccess({}, res, req.t("order_save"), 200);
+  } catch (e) {
+    return helper.sendException(res, e.message, e.code);
+  }
+};
+
 const orders = async (req, res) => {
   try {
     const { page = 1, user_id, status } = req.query;
@@ -701,5 +716,6 @@ module.exports = {
   checkOrder,
   applyCoupon,
   placeOrder,
+  razorPayCallback,
   orders,
 };

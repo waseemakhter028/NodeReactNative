@@ -26,7 +26,7 @@ router.use("/", productRouter);
 router.use("/", invoiceRouter);
 router.use("/carts", authenticate, cartRouter);
 router.use("/address", authenticate, addressRouter);
-router.use("/", authenticate, orderRouter);
+router.use("/", orderRouter);
 router.use("/", authenticate, couponRouter);
 router.use("/", authenticate, notificationRouter);
 router.use("/", authenticate, profileRouter);

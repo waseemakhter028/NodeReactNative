@@ -1727,6 +1727,43 @@
           }
         }
       }
+    },
+    "/razorpaycallback": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/Authrization"
+        },
+        {
+          "$ref": "#/parameters/Timezone"
+        },
+        {
+          "$ref": "#/parameters/AcceptLanguage"
+        }
+      ],
+      "get": {
+        "summary": "Razorpay Callback",
+        "description": "razorpay callback",
+        "tags": ["Razorpay Callback api"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "type": "string",
+            "required": true,
+            "example": "userone@yopmail.com",
+            "default": "userone@yopmail.com"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successfull operation",
+            "schema": {
+              "$ref": "#/definitions/razorPayCallback"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -2320,6 +2357,22 @@
             "message": {
               "type": "string",
               "example": "Password changed successfullly!"
+            }
+          }
+        }
+      ]
+    },
+    "razorPayCallback": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/razorPayCallback"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "razorPayCallback successfullly!"
             }
           }
         }
