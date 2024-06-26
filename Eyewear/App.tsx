@@ -39,7 +39,7 @@ const App = () => {
       <AppContextProvider>
         <SaveInternet connection={isConnected} />
         <ToastContextProvider>
-          <AppNavigation />
+          <AppNavigation connection={isConnected} />
           <ToastMessage />
         </ToastContextProvider>
       </AppContextProvider>

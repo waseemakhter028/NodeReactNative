@@ -12,21 +12,22 @@ import Checkout from '../../screens/Checkout';
 import DisplayOrderPdf from '../../screens/DisplayOrderPdf';
 import ProductDetailScreen from '../../screens/ProductDetails';
 import WelcomeScreen from '../../screens/Welcome';
+import {SaveInternetProps} from '../../types';
 import Drawer from '../drawer';
 import Tabs from '../tabs';
 
 const Stack = createStackNavigator();
 
-const AppStack = () => {
-  const {isLogin, signUpVerify, isCheckout, isConnected} = useContext();
+const AppStack = ({connection}: SaveInternetProps) => {
+  const {isLogin, signUpVerify, isCheckout} = useContext();
   return (
     <Stack.Navigator
       initialRouteName={
-        !isConnected ? 'NoInternet' : isLogin ? 'Home' : 'Welcome'
+        !connection ? 'NoInternet' : isLogin ? 'Home' : 'Welcome'
       }
       screenOptions={{headerShown: false}}>
       <React.Fragment>
-        {!isConnected ? (
+        {!connection ? (
           <Stack.Screen name="NoInternet" component={NoInternet} />
         ) : (
           <React.Fragment>
