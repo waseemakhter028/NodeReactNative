@@ -36,9 +36,11 @@ exports.fileUploadExpress = async ({
   }
   // unlink old files
   if (dbFileName != null) {
-    fs.unlink(path.join(directory, dbFileName), (err) => {
-      if (err) throw err;
-    });
+    if (fs.existsSync(directory + "/" + dbFileName)) {
+      fs.unlink(path.join(directory, dbFileName), (err) => {
+        if (err) throw err;
+      });
+    }
   }
 
   return {
