@@ -44,7 +44,7 @@ class ProfileController implements Controller {
       const file = req.files.photo as UploadedFile;
 
       const { NODE_ENV } = process.env
-      const directory =  NODE_ENV === 'live' ? '../public/users'  : 'public/users';
+      const directory =  NODE_ENV === 'live' ? '../../public/users'  : 'public/users';
 
       const isValidFile = await fileUploadExpress({
         filename: file.name,

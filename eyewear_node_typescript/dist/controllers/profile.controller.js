@@ -40,7 +40,7 @@ class ProfileController {
                     return JSONResponse_1.default.error(res, 'User not found', 200);
                 const file = req.files.photo;
                 const { NODE_ENV } = process.env;
-                const directory = NODE_ENV === 'live' ? '../public/users' : 'public/users';
+                const directory = NODE_ENV === 'live' ? '../../public/users' : 'public/users';
                 const isValidFile = yield (0, fileUpload_1.default)({
                     filename: file.name,
                     data: file.data,
