@@ -44,8 +44,7 @@ class ProfileController implements Controller {
 
       const file = req.files.photo as UploadedFile;
 
-      const { NODE_ENV } = process.env
-      const directory =  NODE_ENV === 'live' ? getRootPath()+'/public/users'  : 'public/users';
+      const directory = 'public/users';
 
       const isValidFile = await fileUploadExpress({
         filename: file.name,
@@ -67,7 +66,7 @@ class ProfileController implements Controller {
         return JSONResponse.error(res, 'File not uploaded try again', 200);
       }
 
-      file.mv(`${directory}/` + imageName);
+      file.mv(`${getRootPath()}/${directory}/` + imageName);
 
       const cartCount = user?.carts?.length;
 

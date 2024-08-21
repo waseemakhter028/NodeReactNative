@@ -39,8 +39,7 @@ class ProfileController {
                 if (!user)
                     return JSONResponse_1.default.error(res, 'User not found', 200);
                 const file = req.files.photo;
-                const { NODE_ENV } = process.env;
-                const directory = NODE_ENV === 'live' ? (0, common_1.getRootPath)() + '/public/users' : 'public/users';
+                const directory = 'public/users';
                 const isValidFile = yield (0, fileUpload_1.default)({
                     filename: file.name,
                     data: file.data,
@@ -57,7 +56,7 @@ class ProfileController {
                 if (!updateImage) {
                     return JSONResponse_1.default.error(res, 'File not uploaded try again', 200);
                 }
-                file.mv(`${directory}/` + imageName);
+                file.mv(`${(0, common_1.getRootPath)()}/${directory}/` + imageName);
                 const cartCount = (_c = user === null || user === void 0 ? void 0 : user.carts) === null || _c === void 0 ? void 0 : _c.length;
                 const data = {
                     id: user._id,
