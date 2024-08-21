@@ -61,7 +61,7 @@ const SignUpVerify = () => {
           verify: false,
           email: '',
         });
-        Toast('success', 'Success !', 'Email verified successfully !!');
+        Toast('success', 'Success !', t('signupverify.res.success'));
         navigation.push('Login');
       } else {
         Toast('danger', 'Error !', res.message);
@@ -118,7 +118,7 @@ const SignUpVerify = () => {
       const res = info.data;
       if (res.success === true) {
         setRemainingTime(60);
-        Toast('success', t('common.success'), t('signupverify.res.success'));
+        Toast('success', t('common.success'), 'OTP resend Successfully !!');
       } else {
         Toast('danger', t('common.error'), res.message);
       }

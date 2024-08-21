@@ -1,0 +1,3 @@
+[
+{"_id":{"$oid":"66a8ab11e116b7b70ce5c24e"},"user_id":{"$oid":"665c05462bde37f2746aa8a8"},"product_id":{"$oid":"66a88fbce116b7b70ce5c24a"},"quantity":{"$numberInt":"4"},"size":"L","color":"#B11D1D"}
+]

@@ -1,0 +1,5 @@
+[
+{"_id":{"$oid":"6162e5182df23590caee8af8"},"name":"Women","status":{"$numberInt":"1"},"createdAt":{"$date":{"$numberLong":"1633870743893"}},"updatedAt":{"$date":{"$numberLong":"1633870743893"}},"__v":{"$numberInt":"0"}},
+{"_id":{"$oid":"6162e4932df23590caee8a9b"},"name":"Men","status":{"$numberInt":"1"},"createdAt":{"$date":{"$numberLong":"1633784343893"}},"updatedAt":{"$date":{"$numberLong":"1633784343893"}},"__v":{"$numberInt":"0"}},
+{"_id":{"$oid":"6162e52c2df23590caee8b01"},"name":"Child","status":{"$numberInt":"1"},"createdAt":{"$date":{"$numberLong":"1633957143893"}},"updatedAt":{"$date":{"$numberLong":"1633957143893"}},"__v":{"$numberInt":"0"}}
+]

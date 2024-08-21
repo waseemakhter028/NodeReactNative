@@ -1,0 +1,16 @@
+# Ignore build artifacts
+dist/
+build/
+
+# Ignore the node_modules directory
+node_modules/
+
+# Ignore test files
+src/**/*.test.ts
+
+# Ignore configuration files
+*.config.js
+*.config.ts
+
+# Ignore log files
+*.log

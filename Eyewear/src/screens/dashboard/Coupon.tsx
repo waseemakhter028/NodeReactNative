@@ -31,7 +31,7 @@ const CouponCard = ({item}: CouponCardProps) => {
             {item.title}
           </Text>
           <TextPrice className="rsfontSize-f-2 rsfontWeight-600 text-productTitle">
-            50
+            {item.amount}
           </TextPrice>
         </View>
         <View className="rsposition-absolute  rsmarginTop-h-4 rsmarginLeft-w-19.5 flex-row">

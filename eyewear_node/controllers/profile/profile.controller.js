@@ -63,7 +63,7 @@ const saveUserImage = async (req, res) => {
 };
 
 const changePassword = async (req, res) => {
-  const { current_password, new_password, confirm_password } = req.body;
+  const { current_password, confirm_password } = req.body;
   try {
     const user = await User.findOne({
       api_token: req.headers["Authorization"] || req.headers["authorization"],

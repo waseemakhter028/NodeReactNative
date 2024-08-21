@@ -1,0 +1,3 @@
+[
+{"_id":{"$oid":"665ca62bd66954764f926e79"},"product_id":{"$oid":"616325ececd4223283d4f123"},"user_id":{"$oid":"665c05462bde37f2746aa8a8"},"rating":{"$numberInt":"2"},"comment":"it is very good product","status":{"$numberInt":"1"},"createdAt":{"$date":{"$numberLong":"1635165229506"}},"updatedAt":{"$date":{"$numberLong":"1635165229506"}},"__v":{"$numberInt":"0"}}
+]

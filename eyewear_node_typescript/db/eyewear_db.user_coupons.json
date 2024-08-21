@@ -1,0 +1,3 @@
+[
+{"_id":{"$oid":"6659d4728d6126f4dc26f729"},"user_id":{"$oid":"665c05462bde37f2746aa8a8"},"coupon_id":{"$oid":"618d497ab6b35792113fa787"},"coupon_amount":{"$numberInt":"50"},"used":{"$numberInt":"0"},"createdAt":{"$date":{"$numberLong":"1717071575576"}},"updatedAt":{"$date":{"$numberLong":"1717250022337"}},"__v":{"$numberInt":"0"}}
+]
