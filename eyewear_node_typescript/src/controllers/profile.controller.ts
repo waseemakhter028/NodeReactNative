@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
+import path from 'path'
 import { UploadedFile } from 'express-fileupload';
 import Controller from '../interfaces/controller.interface';
 import validationMiddleware from '../middleware/validation.middleware';
@@ -9,7 +10,7 @@ import UserModel from '../models/user';
 import CartModel from '../models/cart';
 import fileUploadExpress from '../middleware/fileUpload';
 import { authenticate } from '../middleware/auth';
-import { getAuthorization } from '../utils/common';
+import { getAuthorization, getRootPath } from '../utils/common';
 
 class ProfileController implements Controller {
   public router = Router();
@@ -44,7 +45,7 @@ class ProfileController implements Controller {
       const file = req.files.photo as UploadedFile;
 
       const { NODE_ENV } = process.env
-      const directory =  NODE_ENV === 'live' ? '../../public/users'  : 'public/users';
+      const directory =  NODE_ENV === 'live' ? getRootPath()+'/public/users'  : 'public/users';
 
       const isValidFile = await fileUploadExpress({
         filename: file.name,
