@@ -1,4 +1,0 @@
-[
-{"_id":{"$oid":"665c06082bde37f2746aa8ea"},"user_id":{"$oid":"665c05462bde37f2746aa8a8"},"address_type":"Home","street":"16","address":"House No 1501","city":"New Delhi","state":"Delhi","zipcode":{"$numberInt":"110053"},"landmark":"golden public school","country":"India","createdAt":{"$date":{"$numberLong":"1717306888837"}},"updatedAt":{"$date":{"$numberLong":"1717306888837"}},"__v":{"$numberInt":"0"}},
-{"_id":{"$oid":"667bc5fb90750c3268473bac"},"user_id":{"$oid":"667b0212e10026ae6ad0c611"},"address_type":"Home","street":"15","address":"house no 778","city":"up","state":"uttar pradesh","zipcode":{"$numberInt":"110055"},"landmark":"metro","country":"India","createdAt":{"$date":{"$numberLong":"1719387643124"}},"updatedAt":{"$date":{"$numberLong":"1719387643124"}},"__v":{"$numberInt":"0"}}
-]

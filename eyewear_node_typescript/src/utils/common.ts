@@ -6,7 +6,8 @@ import { Pagination } from '../interfaces/common';
 import { TIMEZONE } from '../constant/common';
 
 export function getRootPath(): string {
-  return path.resolve(__dirname, '../../');
+  const { NODE_ENV } = process.env;
+  return NODE_ENV === 'development' ? path.resolve(__dirname, '../../')  : path.resolve(__dirname)
 }
 
 export function rand(min: number, max: number): number {

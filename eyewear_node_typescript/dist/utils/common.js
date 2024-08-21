@@ -17,7 +17,8 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const common_1 = require("../constant/common");
 function getRootPath() {
-    return path_1.default.resolve(__dirname, '../../');
+    const { NODE_ENV } = process.env;
+    return NODE_ENV === 'development' ? path_1.default.resolve(__dirname, '../../') : path_1.default.resolve(__dirname);
 }
 function rand(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;

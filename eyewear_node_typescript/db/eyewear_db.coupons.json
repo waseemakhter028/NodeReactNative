@@ -1,4 +1,0 @@
-[
-{"_id":{"$oid":"618d497ab6b35792113fa787"},"title":"SUMMER COUPON","code":"Q9Df38rPs","description":"SUMMER COUPON","amount":{"$numberInt":"50"},"validity":null,"status":{"$numberInt":"1"},"createdAt":{"$date":{"$numberLong":"1639054743893"}},"updatedAt":{"$date":{"$numberLong":"1639054743893"}},"__v":{"$numberInt":"0"}},
-{"_id":{"$oid":"618962c4b664c132bc7a39f3"},"title":"WINTER COUPON","code":"H9Gf38rJq","description":"WINTER COUPON","amount":{"$numberInt":"100"},"validity":{"$date":{"$numberLong":"1765497600000"}},"status":{"$numberInt":"1"},"createdAt":{"$date":{"$numberLong":"1639054743893"}},"updatedAt":{"$date":{"$numberLong":"1639054743893"}},"__v":{"$numberInt":"0"}}
-]

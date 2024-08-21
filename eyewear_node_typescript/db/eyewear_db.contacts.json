@@ -1,3 +1,0 @@
-[
-{"_id":{"$oid":"666053570d45535487cf5fe6"},"name":"User One ","email":"userone@yopmail.com","phone":{"$numberDouble":"9985983655.0"},"message":"Test","createdAt":{"$date":{"$numberLong":"1717588823056"}},"updatedAt":{"$date":{"$numberLong":"1717588823056"}},"__v":{"$numberInt":"0"}}
-]
