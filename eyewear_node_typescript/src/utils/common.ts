@@ -7,7 +7,7 @@ import { TIMEZONE } from '../constant/common';
 
 export function getRootPath(): string {
   const { NODE_ENV } = process.env;
-  return NODE_ENV === 'development' ? path.resolve(__dirname, '../../')  : path.resolve(__dirname)
+  return NODE_ENV === 'development' ? path.resolve(__dirname, '../../')  : path.resolve(__dirname, '../')
 }
 
 export function rand(min: number, max: number): number {
